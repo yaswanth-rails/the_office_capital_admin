@@ -1,0 +1,206 @@
+ <!-- page content -->
+ <div class="right_col" role="main">
+<div class="container" >
+  <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Update Profile</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                     
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put,class: "form-horizontal form-label-left",multipart: true }) do |f| %>
+      <%= devise_error_messages! %>
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">Email:</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <%= f.email_field :email, autofocus: true,class:"form-control col-md-7 col-xs-12",readonly: true %>
+        </div>
+      </div>
+<%if !current_user.lock_name%>
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">First name:</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <%= f.text_field :firstname,class:"form-control col-md-7 col-xs-12" %>
+        </div>
+      </div>
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Last name:</label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <%= f.text_field :lastname,class:"form-control col-md-7 col-xs-12" %>
+          </div>
+        </div>
+<%end%>
+
+      <%if !current_user.lock_mobile%>
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">Mobile Number:</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <%= f.text_field :mobile_number,class:"form-control col-md-7 col-xs-12" %>
+        </div>
+      </div>
+
+      <%if !current_user.mobile_number2_locked%>
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">Mobile Number2:</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <%= f.text_field :mobile_number2,class:"form-control col-md-7 col-xs-12" %>
+        </div>
+      </div>
+      <%end%>
+      <%if !current_user.mobile_number3_locked%>
+      <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">Mobile Number3:</label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <%= f.text_field :mobile_number3,class:"form-control col-md-7 col-xs-12" %>
+        </div>
+      </div>
+      <%end%>            
+
+      <%end%>
+      <%if !current_user.tier_verified%>
+        <%if current_user.proof_doc_file_name.nil? or current_user.proof_doc_rejected%>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">ID Proof:</label>
+            <div class="col-lg-4">
+              <%= f.file_field :proof_doc, style: 'height: 30px;',onchange: "readURL(this);"  %>
+              <span>max size of the document should be 2 MB</span>
+            </div>
+
+            <%if !@user.proof_doc_file_name.blank?%>
+              <div class="col-lg-4" style="margin-bottom:20px">
+                <%=image_tag @user.proof_doc.url, id: "img_prev", title: "#{@user.proof_doc_file_name}"  %>
+              </div>
+            <%else%>
+              <div class="col-lg-4 idproof" style="margin-bottom:20px;visibility:hidden" >
+                <%=image_tag @user.proof_doc.url, id: "img_prev", title: "#{@user.proof_doc_file_name}"  %>
+              </div>        
+            <%end%>
+          </div>      
+        <%end%>
+        <%if current_user.additional_doc1_file_name.nil? or current_user.additional_doc1_rejected%>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Selfie with Aadhar :</label>
+            <div class="col-lg-4">
+              <%= f.file_field :additional_doc1, style: 'height: 30px;',onchange:"readURL2(this);" %>
+              <span>max size of the document should be 2 MB</span>
+            </div>
+
+            <%if !@user.additional_doc1_file_name.blank?%>
+              <div class="col-lg-4" style="margin-bottom:20px">
+                <%=image_tag @user.additional_doc1.url, id: "img_prev2", title:"#{@user.additional_doc1_file_name}"  %>
+              </div>
+            <%else%>
+              <div class="col-lg-4 addressproof" style="margin-bottom:20px;visibility:hidden">
+                <%=image_tag @user.additional_doc1.url, id: "img_prev2", title: "#{@user.additional_doc1_file_name}"  %>
+              </div>
+            <%end%>
+          </div>
+        <%end%>
+      <%end%>   
+
+      <%# if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <!-- <div>Currently waiting confirmation for: <%#= resource.unconfirmed_email %></div> -->
+      <%# end %>
+      <%if current_user.provider.blank?%>
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">New Password:</label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <%= f.password_field :password, autocomplete: "off",class:"form-control col-md-7 col-xs-12" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Re-enter New Password:</label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <%= f.password_field :password_confirmation, autocomplete: "off",class:"form-control col-md-7 col-xs-12" %>
+          </div>
+        </div>        
+
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Current Password:</label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <%= f.password_field :current_password, autocomplete: "off",class:"form-control col-md-7 col-xs-12" %>
+          </div>
+        </div>      
+      <%end%>
+      <div class="form-group">
+        <label class="col-md-4 control-label"></label>
+        <div class="col-md-4">
+          <%= f.submit "Update", class: "btn btn-success" %>
+        </div>
+       </div>
+    <% end %>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<% content_for :head do %>
+
+  <style>
+  #error_explanation
+  {
+    margin-bottom:10px;
+    color:#FF0000;
+  }
+  #user_dob_3i,#user_dob_2i,#user_dob_1i
+  {
+    padding:5px 10px;
+  }
+  #user_dob_3i,#user_dob_2i
+  {
+    margin-right: 10px;
+  }
+  #user_country
+  {
+    padding: 5px 48px 5px 5px;
+  }
+  #img_prev,#img_prev2
+  {
+    height:60px;width:60px;
+  }
+  </style>
+<script>
+      function readURL(input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            $('#img_prev')
+              .attr('src', e.target.result)
+              .width(60)
+              .height(60);
+          };
+
+          reader.readAsDataURL(input.files[0]);
+          $(".idproof").css('visibility','visible');
+        }
+      }
+      function readURL2(input) {
+        
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            $('#img_prev2')
+              .attr('src', e.target.result)
+              .width(60)
+              .height(60);
+          };
+
+          reader.readAsDataURL(input.files[0]);
+          $(".addressproof").css('visibility','visible');  
+        }
+      }       
+    </script>
+<%end%>
+</div>

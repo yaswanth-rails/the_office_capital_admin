@@ -1,0 +1,188 @@
+<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<style type="text/css">
+	.hidden {
+		display: none;
+	}
+</style>
+
+<div id="main_aadhar">
+
+	<%= form_for @user ,url:aadhar_edit_path, method: :post,html: { multipart: true }, local: true, data: { turbo: false } do  |form|%>
+		<div class="form-group row">
+			<label for="aadhar_number" class="col-sm-2 col-form-label">Aadhar Number</label>
+			<div class="col-sm-6">
+				<% if @user.aadhar_status != "accepted" || current_toc.role.role !="employee"%>
+				<%= form.text_field :aadhar_number,class:"form-control", required: true%>
+				<%else%>
+				<%=@user.aadhar_number%>
+				<%end%>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="aadhar_number" class="col-sm-2 col-form-label">Select country</label>
+			<div class="col-sm-6">
+				<% if @user.aadhar_status != "accepted" || current_toc.role.role !="employee"%>
+				<%= render 'country',:id=>@user%>
+				<%else%>
+				<%=@user.country%>
+				<%end%>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="aadhar_number" class="col-sm-2 col-form-label">Select State</label>
+			<div class="col-sm-6">
+				<% if @user.aadhar_status != "accepted" || current_toc.role.role !="employee"%>
+				<%= render 'state',:id=>@user%>
+				<%else%>
+				<%=@user.state%>
+				<%end%>
+			</div>
+		</div>
+	
+		<div class="form-group row">
+			<label for="aadhar_front" class="col-sm-2 col-form-label">Aadhar Front</label>
+			<div class="col-sm-6">
+				<% if @user.aadhar_status != "accepted" || current_toc.role.role !="employee"%>
+					<%if @user.aadhar_front.present?%>
+						<%=render partial: 'proof', locals: {value: @user.aadhar_front_url, form: @user, field_name: 'aadhar_front', model: 'user'}%>
+						<%if @user.aadhar_status == "accepted"%>
+							<%=render partial: 'download', locals: {value: @user.aadhar_front_url,filename: @user.aadhar_front_identifier }%>
+						<%end%>
+					<%else%>
+						<%= form.file_field :aadhar_front,class:"form-control"%>
+					<%end%>
+				<%else%>
+					<%if @user.aadhar_front.present?%>
+						<%=render partial: 'profile_pic', locals: {value: @user.aadhar_front_url}%>
+						<%=render partial: 'download', locals: {value: @user.aadhar_front_url,filename: @user.aadhar_front_identifier }%>
+					<%end%>
+				<%end%>
+			</div>
+		</div>
+		<div class="form-group row" id="hide1">
+			<label for="aadhar_back" class="col-sm-2 col-form-label">Aadhar Back</label>
+			<div class="col-sm-6">
+				<%if @user.aadhar_status != "accepted" || current_toc.role.role !="employee"%>
+					<%if @user.aadhar_back.present?%>
+						<%=render partial: 'proof', locals: {value: @user.aadhar_back.url, form: @user, field_name: 'aadhar_back', model: 'user', bucket: ENV["KYC_BUCKET"] }%>
+						<%if @user.aadhar_status == "accepted"%>
+							<%=render partial: 'download', locals: {value: @user.aadhar_back_url,filename: @user.aadhar_back_identifier}%>
+						<%end%>
+					<%else%>
+						<%= form.file_field :aadhar_back,class:"form-control"%>
+					<%end%>
+				<%else%>
+					<%if @user.aadhar_back.present?%>
+						<%=render partial: 'profile_pic', locals: {value: @user.aadhar_back_url}%>
+						<%=render partial: 'download', locals: {value: @user.aadhar_back_url,filename: @user.aadhar_back_identifier }%>
+					<%end%>
+				<%end%>	
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="admin_verified_aadhar_front" class="col-sm-2 col-form-label">Admin Verified Aadhar Front</label>
+			<div class="col-sm-6">
+				<% if @user.aadhar_status != "accepted" || current_toc.role.role !="employee"%>
+					<%if @user.admin_verified_aadhar_front.present?%>
+						<%=render partial: 'proof', locals: {value: @user.admin_verified_aadhar_front_url, form: @user, field_name: 'admin_verified_aadhar_front', model: 'user' }%>
+						<%if @user.aadhar_status == "accepted"%>
+							<%=render partial: 'download', locals: {value: @user.admin_verified_aadhar_front_url,filename: @user.admin_verified_aadhar_front_identifier }%>
+						<%end%>
+					<%else%>
+						<%= form.file_field :admin_verified_aadhar_front,class:"form-control"%>
+					<%end%>
+				<%else%>
+					<%if @user.admin_verified_aadhar_front.present?%>
+						<%=render partial: 'profile_pic', locals: {value: @user.admin_verified_aadhar_front_url}%>
+						<%=render partial: 'download', locals: {value: @user.admin_verified_aadhar_front_url,filename: @user.admin_verified_aadhar_front_identifier}%>
+					<%end%>
+				<%end%>
+			</div>
+		</div>
+		<div class="form-group row" id="hide2">
+			<label for="admin_verified_aadhar_back" class="col-sm-2 col-form-label">Admin Verified Aadhar Back</label>
+			<div class="col-sm-6">
+				<% if @user.aadhar_status != "accepted" || current_toc.role.role !="employee"%>
+				<%if @user.admin_verified_aadhar_back.present?%>
+						<%=render partial: 'proof', locals: {value: @user.admin_verified_aadhar_back_url, form: @user, field_name: 'admin_verified_aadhar_back', model: 'user' }%>
+						<%if @user.aadhar_status == "accepted"%>
+							<%=render partial: 'download', locals: {value: @user.admin_verified_aadhar_back_url,filename: @user.admin_verified_aadhar_back_identifier }%>
+						<%end%>
+					<%else%>
+						<%= form.file_field :admin_verified_aadhar_back,class:"form-control"%>
+					<%end%>
+				<%else%>
+					<%if @user.admin_verified_aadhar_back.present?%>
+						<%=render partial: 'profile_pic', locals: {value: @user.admin_verified_aadhar_back_url}%>
+						<%=render partial: 'download', locals: {value: @user.admin_verified_aadhar_back_url,filename: @user.admin_verified_aadhar_back_identifier }%>
+					<%end%>
+				<%end%>
+			</div>
+		</div>
+		<%if @user.aadhar_status == "rejected"%>
+			<div class="form-group row">
+				<label for="aadhar_rejected_reason" class="col-sm-2 col-form-label">Aadhar Reject Reason</label>
+				<div class="col-sm-6">
+					<h5 style="color: red"><%=@user.aadhar_rejected_reason%></h5>
+				</div>
+			</div>
+		<%end%>
+		<br>
+		<div class="col-sm-2">
+		</div>
+		<div class="col-sm-6">
+			<%if @user.aadhar_status != "accepted" || current_toc.role.role !="employee"%>
+				<button type="submit" class="btn btn-primary btn-md">Submit</button>
+				<button type="button" class="btn btn-primary btn-md" id ="reject">Change status</button>
+			<%end%>
+		</div>
+	<%end%>
+</div>
+
+<div class="hidden" id="reason">
+	<%= form_for @user ,url:change_proof_status_path(:proof=>"aadhar"), method: :post do  |form|%>
+		<br>
+		<div class=" form-group row">
+			<label for="aadhar_status" class="col-sm-2 col-form-label">Select Status</label>
+			<div class="col-sm-6 ">
+			<%= form.select :aadhar_status,["not uploaded","pending","accepted","rejected"],class: "form-control"%>
+			</div>
+		</div>
+		<div class="form-group row hidden" id="reason1">
+			<label for="aadhar_rejected_reason" class="col-sm-2 col-form-label">Aadhar Rejected Reason</label>
+			<div class="col-sm-6 " >
+				<%= form.text_field :aadhar_rejected_reason,class: "form-control"%>
+			<br>
+			</div>
+		</div>
+		<div class="col-sm-2">
+		</div>
+		<div class="col-sm-6">
+			<%= form.submit "Submit",class: "btn btn-primary btn-md"%>
+			<%= link_to "Back", aadhar_edit_path(model_name: 'User', id: @user.id),class: "btn btn-primary btn-md" %>
+		</div>
+	<%end%>
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$("#reject").on("click",function() {
+		$("#reason").removeClass("hidden");
+		$("#reject").addClass("hidden");
+		$("#main_aadhar").addClass("hidden");
+		$("#user_aadhar_status").on("change",function() {
+		var value1 = $(this).val()
+		if (value1=="rejected"){ 
+			$("#reason1").removeClass("hidden");
+		}
+		else{
+			$("#reason1").addClass("hidden");
+		}
+	})
+	})
+});
+</script>

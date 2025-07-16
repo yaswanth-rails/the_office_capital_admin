@@ -1,0 +1,33 @@
+<div>
+	<div>
+		<h2 style="text-align: center; margin-top:0px;">Questions</h2>
+	</div>
+
+
+  <%if !@job_questions.blank?%>
+    <table class="table table-condensed table-striped">
+      <tr>
+        <th>Sno</th>
+        <th>Question</th>
+        <th>Question Type</th>
+        <th>Created At</th>
+        <th></th>
+      </tr>
+  		<%@job_questions.each_with_index do|job_question,index|%>
+  			<tr>
+  				<td><%=index+1%></td>
+          <td><%=job_question.name%></td>
+          <td><%=job_question.question_type%></td>
+          <td><%=job_question.created_at.strftime("%d-%b-%Y")%></td>
+          <td>
+            <%= link_to "show", show_path(model_name: 'JobQuestion', id: job_question.id), target: "_blank" %>
+          </td>
+  			</tr>
+  		<%end%>
+  	</table>
+  <%else%>
+    <div style="float:left; width:85%">
+      <h2>There are no questions for this job</h2>
+    </div>
+  <%end%>
+</div>

@@ -1,0 +1,78 @@
+<%if @user.firstname.nil?%>
+	<p>Dear <%=@user.mail%></p>
+<%else%>
+	<p>Dear <%=@user.firstname.capitalize rescue nil%>,</p>
+<%end%>
+
+<p style="padding-left:10px">
+	Your <%@workspace_type.name%> booking with reference number #<%=@booking.reference_number%> at workspace <b><%=@workspace.name%></b> has been canceled.
+</p>
+
+<p style="padding-left:10px">Total Amount Paid: <b>Rs. <%=ApplicationHelper.inr_format(@total_paid)%></b></p>
+<p style="padding-left:10px">Cancelation Fee(<%=@fee_percentage%>%): <b>Rs. <%=ApplicationHelper.inr_format(@cancelation_fee)%></b></p>
+
+<p style="padding-left:10px">
+	<%if @refund_bonus > 0%>
+		The bonus amount <b><%=ApplicationHelper.inr_format(@refund_bonus - @remaining_bonus)%></b> is credited back to your bonus account.<br/>
+		<%if @remaining_bonus > 0%>
+			The bonus amount <b><%=ApplicationHelper.inr_format(@remaining_bonus)%></b> is expired.<br/>
+		<%end%>
+	<%end%>
+	The amount <b>Rs. <%=ApplicationHelper.inr_format(@total_refund - @refund_bonus)%></b> is credited to your wallet, please check at wallet history.
+</p>
+
+<p><b>Canceled Booking Summary:</b></p>
+<div style="padding-bottom:20px">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse">
+    <tbody>
+      <tr>
+        <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+          Reference Number
+        </td>
+        <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+          <strong><%=@booking.reference_number%></strong>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+          Meeting start date & time
+        </td>
+        <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+          <strong><%=@booking.start_time.strftime("%d-%m-%y %H:%M")%></strong>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+          Meeting end date & time
+        </td>
+        <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+          <strong><%=@booking.end_time.strftime("%d-%m-%y %H:%M")%></strong>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+           status
+        </td>
+        <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+          <%=@booking.status%>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+        	Payment Status
+        </td>
+        <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+          <%=@booking.payment_status%>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+        	Payment Date
+        </td>
+        <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+          <%=@booking.payment_date.strftime("%d-%m-%Y")%>
+        </td>
+      </tr>
+	  </tbody>
+  </table>
+</div>

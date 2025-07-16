@@ -1,0 +1,136 @@
+<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+	<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<style type="text/css">
+	.hidden {
+		display: none;
+	}
+</style>
+
+<div id="main_id_proof">
+	<%= form_for @user ,url:pan_card_edit_path, method: :post,html: { multipart: true }, local: true, data: { turbo: false } do  |form|%>
+		<div class="form-group row">
+			<label for="dob" class="col-sm-2 col-form-label">Date of Birth</label>
+			<div class="col-sm-6">
+				<%if @user.pan_card_status != "accepted"|| current_toc.role.role !="employee"%>
+	  		<%= form.text_field :dob,  placeholder: "dd/mm/yyyy", required: true, id: "dob-select", value: @user.dob.try(:strftime, "%d/%m/%Y"),class: "form-control" %>
+				<%else%>
+						<%=@user.dob%>
+				<%end%>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="pan_number" class="col-sm-2 col-form-label">Pan Number</label>
+			<div class="col-sm-6">
+				<%if @user.pan_card_status != "accepted"|| current_toc.role.role !="employee"%>
+				<%= form.text_field :pan_number,class:"form-control", required: true%>
+				<%else%>
+				<%=@user.pan_number%>
+				<%end%>
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="pan_card" class="col-sm-2 col-form-label">Pan Card</label>
+			<div class="col-sm-6">
+				<%if @user.pan_card_status != "accepted"|| current_toc.role.role !="employee"%>
+					<%if @user.pan_card.present?%>
+						<%=render partial: 'proof', locals: {value: @user.pan_card_url, form: @user, field_name: 'pan_card', model: 'user'}%>
+						<%if @user.pan_card_status == "accepted"%>
+							<%=render partial: 'download', locals: {value: @user.pan_card_url,filename: @user.pan_card_identifier }%>
+						<%end%>
+					<%else%>
+						<%= form.file_field :pan_card,class:"form-control"%>
+					<%end%>
+				<%else%>
+					<%if @user.pan_card.present?%>
+						<%=render partial: 'profile_pic', locals: {value: @user.pan_card_url}%>
+						<%=render partial: 'download', locals: {value: @user.pan_card_url,filename: @user.pan_card_identifier }%>
+					<%end%>
+				<%end%>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="admin_verified_pan_card" class="col-sm-2 col-form-label">Admin Verified Pan Card</label>
+			<div class="col-sm-6">
+				<%if @user.pan_card_status != "accepted"|| current_toc.role.role !="employee"%>
+					<%if @user.admin_verified_pan_card.present?%>
+						<%=render partial: 'proof', locals: {value: @user.admin_verified_pan_card_url, form: @user, field_name: 'admin_verified_pan_card', model: 'user' }%>
+						<%if @user.pan_card_status == "accepted"%>
+							<%=render partial: 'download', locals: {value: @user.admin_verified_pan_card_url,filename: @user.admin_verified_pan_card_identifier}%>
+						<%end%>
+					<%else%>
+						<%= form.file_field :admin_verified_pan_card,class:"form-control "%>
+					<%end%>
+				<%else%>
+					<%if @user.admin_verified_pan_card.present?%>
+						<%=render partial: 'profile_pic', locals: {value: @user.admin_verified_pan_card_url}%>
+						<%=render partial: 'download', locals: {value: @user.admin_verified_pan_card_url,filename: @user.admin_verified_pan_card_identifier}%>
+					<%end%>
+				<%end%>	
+			</div>
+		</div>
+		<%if @user.pan_card_status == "rejected"%>
+			<div class="form-group row">
+				<label for="pan_card_rejected_reason" class="col-sm-2 col-form-label">Pan Card Reject Reason</label>
+				<div class="col-sm-6">
+					<h5 style="color: red"><%=@user.pan_card_rejected_reason%></h5>
+				</div>
+			</div>
+		<%end%>
+		<br>
+		<div class="col-sm-2">
+		</div>
+		<div class="col-sm-6">
+			<%if @user.pan_card_status != "accepted"|| current_toc.role.role !="employee"%>
+				<button type="submit" class="btn btn-primary btn-md" id="submit">Submit</button>
+				<button type="button" class="btn btn-primary btn-md" id ="reject">Change Status</button>
+			<%end%>
+		</div>
+	<%end%>
+	<br>
+	<br>
+</div>
+<div class="hidden" id="reason">
+	<%= form_for @user ,url:change_proof_status_path(:proof=>"pan_card"), method: :post do  |form|%>
+		<div class=" form-group row">
+			<label for="dropdown" class="col-sm-2 col-form-label">Select Status</label>
+			<div class="col-sm-6" id="status">
+				<%= form.select :pan_card_status,["not uploaded","pending","accepted","rejected"],class: "form-control"%>
+			</div>
+		</div>
+		<div class=" form-group row hidden" id="reason1">
+			<label for="pan_card_rejected_reason" class="col-sm-2 col-form-label">Pan card rejected reason</label>
+			<div class="col-sm-6 ">
+				<%= form.text_field :pan_card_rejected_reason,class: "form-control"%>
+				<br>
+			</div>
+		</div>
+		<div class="col-sm-2">
+		</div>
+		<div class="col-sm-6">
+			<%= form.submit "Submit",class: "btn btn-primary btn-md"%>
+			<%= link_to "Back", pan_card_edit_path(model_name: 'User', id: @user.id),class: "btn btn-primary btn-md" %>
+		</div>
+	<%end%>
+</div>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$("#reject").on("click",function() {
+		$("#reason").removeClass("hidden");
+		$("#reject").addClass("hidden");
+		$("#main_id_proof").addClass("hidden");
+		$("#user_pan_card_status").on("change",function() {
+		var value1 = $(this).val()
+		if (value1=="rejected"){ 
+			$("#reason1").removeClass("hidden");
+		}
+		else{
+			$("#reason1").addClass("hidden");
+		}
+	})
+	})
+});
+</script>

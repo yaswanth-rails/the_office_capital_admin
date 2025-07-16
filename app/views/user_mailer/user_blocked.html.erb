@@ -1,0 +1,17 @@
+<div style="background:#fff;border:1px solid #e2e2e2;margin:20px auto;max-width:536px;min-width:300px;padding:40px;text-align:left" align="left">
+<%if @user.firstname.present? || @user.lastname.present?%>
+	<p>Dear <%=@user.firstname.capitalize rescue nil%> <%=@user.lastname.capitalize rescue nil%>,</p>
+<%else%>
+	<p>Dear <%=@user.email%>,<p>
+<%end%>
+
+<% if @banned %>
+
+	<p> We would like to inform you that your TheOfficeCapital™ account has been Terminated and you will be no longer able to access any of the TheOfficeCapital™ products/services through this account.</p>
+	<p><b>Reason for termination:</b> <%= @banned_reason %></p>
+
+<% else %>
+ 	<p> We are here to inform you that you are now part of TheOfficeCapital™ services and you have been unblocked</p>
+
+<% end %>
+</div>

@@ -1,0 +1,123 @@
+  <%if @user.firstname.nil?%>
+    <p>Dear <%=@email%><p>
+  <%else%>
+    <p>Dear <%=@user.firstname.capitalize rescue nil%>,</p>
+  <%end%>
+
+  <p style="padding-left:10px">We have received request from you for Rs. <%=ApplicationHelper.inr_format(@withdraw.withdraw_amount)%> for Withdrawal and the same amount has been deposited to your bank account successfully.</p>
+
+  <p><b>Withdrawal Summary</b></p>
+
+  <div style="padding-bottom:30px">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse">
+      <tbody>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Order Number
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong><%=@withdraw.reference_number%></strong>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Date
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong><%=@withdraw.updated_at.strftime("%A %B %d %Y")%></strong>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Cash requested for withdrawal
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong>Rs. <%=ApplicationHelper.inr_format(@withdraw.withdraw_amount)%></strong>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Transaction commission/fee
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong>Rs. <%=ApplicationHelper.inr_format(@withdraw.fee)%> </strong>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Total amount debited from your CASH Account
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong>Rs. <%=ApplicationHelper.inr_format(@withdraw.amount)%></strong>
+          </td>             
+        </tr>
+        <tr>            
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            The Available Balance in your CASH Account is
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong>Rs. <%=ApplicationHelper.inr_format(@cash_balance)%></strong>
+          </td>
+        </tr>                   
+      </tbody>
+    </table>
+  </div>
+  <p>
+    <b>Cash of Rs. <%=@withdraw.withdraw_amount%> has been deposited to the bank account given below:</b>
+  </p>
+  <div style="padding-bottom:30px">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse">
+      <tbody>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Account Type
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong><%=@bank_account.account_type%></strong>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Account Number
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong><%=@bank_account.account_number%></strong>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Bank Name
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong><%=@bank_account.bank_name%></strong>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Branch Name
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong><%=@bank_account.branch_name%></strong>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            City
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong><%=@bank_account.city%></strong>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            IFSC Code
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong><%=@bank_account.ifsc_code%></strong>
+          </td>
+        </tr>           
+      </tbody>
+    </table>
+  </div>
+
+

@@ -1,0 +1,15 @@
+<%if @user.firstname.present? || @user.lastname.present?%>
+	<p>Dear <%=@user.firstname.capitalize rescue nil%> <%=@user.lastname.capitalize rescue nil%>,</p>
+<%else%>
+	<p>Dear <%=@email%>,<p>
+<%end%>
+
+<p>Greetings of the day!</p>
+<% if @pan_card_status == "rejected"  %>
+	<p>We are here to inform you that your pan card has been rejected because of the following reason(s)</p>
+	<p><b><%= @pan_card_rejected_reason %></b></p>
+
+<% elsif @pan_card_status == "accepted" %>
+	<p>We are here to inform you that your pan card has been accepted</p>
+	<p style="padding-left:10px"><b>pan card ends with <%=@user.pan_number[-3..-1] rescue nil%></p>
+<% end %>

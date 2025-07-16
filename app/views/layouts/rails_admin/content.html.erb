@@ -1,0 +1,54 @@
+<div class="page-header">
+  <% if request.fullpath.include?"toc_maintenance"   %>
+    <% user_balance = Wallet.where("id !=?",ENV["TOC_MASTER_WALLET"]).sum(:balance) %>
+    <% user_bonus_balance = Wallet.where("id !=?",ENV["TOC_MASTER_WALLET"]).sum(:bonus_balance) %>
+    <% master_wallet_balance = Wallet.where("id =?",ENV["TOC_MASTER_WALLET"]).first.balance %>
+    <% master_wallet_bonus_balance = Wallet.where("id =?",ENV["TOC_MASTER_WALLET"]).first.bonus_balance %>
+    <table border="1" class="table table-stripped table-bordered">
+      <thead>
+        <tr>
+          <th width="10%">Sno</th>
+          <th width="40%" style="text-align:center">Wallet</th>
+          <th width="25%">Balance</th>
+          <th width="25%">Bonus Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Master Wallet</td>
+          <td><%=master_wallet_balance%></td>
+          <td><%=master_wallet_bonus_balance%></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>User Wallets</td>
+          <td><%=user_balance%></td>
+          <td><%=user_bonus_balance%></td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+</div>
+<title>
+  <%= "#{@abstract_model.try(:pretty_name) || @page_name} | #{[_get_plugin_name[0] || 'Rails', _get_plugin_name[1] || 'Admin'].join(' ')}" %>
+</title>
+<header class="py-2 m-2 border-bottom" data-model="<%= @abstract_model.to_param %>">
+  <h1>
+    <%= @page_name %>
+  </h1>
+</header>
+<% flash && flash.each do |key, value| %>
+  <div class="<%= flash_alert_class(key) %> alert alert-dismissible">
+    <%= value %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+<nav aria-label="breadcrumb">
+  <%= breadcrumb %>
+</nav>
+<ul class="nav nav-tabs mb-3">
+  <%= menu_for((@abstract_model ? (@object.try(:persisted?) ? :member : :collection) : :root), @abstract_model, @object) %>
+  <%= content_for :contextual_tabs %>
+</ul>
+<%= yield %>

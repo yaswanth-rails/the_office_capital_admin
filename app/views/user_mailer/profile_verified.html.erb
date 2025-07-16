@@ -1,0 +1,9 @@
+
+<%if @user.firstname.present?%>
+	<p>Dear <%=@user.firstname.capitalize rescue nil%> <%=@user.lastname.capitalize rescue nil%>,</p>
+<%else%>
+	<p>Dear <%=@email%>,<p>
+<%end%>
+<p>Greetings of the day!</p>
+
+<p>Congratulations!!! Your profile with TheOfficeCapital™ has been verified successfully.</p>

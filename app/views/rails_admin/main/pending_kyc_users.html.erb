@@ -1,0 +1,101 @@
+
+<%if @users.present?%>
+	<table class="table table-hover  table-condensed table-striped">
+		<thead>
+		<tr>
+			<th scope="col">Email</th>
+			<th scope="col">
+				<%if @selected=="pan_card"%>
+					Pan Card Status
+				<%elsif @selected=="aadhar"%>
+					Aadhar Status
+				<%elsif @selected=="company_id_card"%>
+					Company ID Card Status
+				<%elsif @selected=="kyc_verified"%>
+					KYC Verified
+				<%else%>
+				<%end%>
+			</th>
+			<th scope="col">Status</th>
+			<th scope="col">Action</th>
+		</tr>
+		</thead>
+		<tbody>
+			<div  align="center">
+				<%if @selected=="all"||@selected.nil?%>
+					<h3>Pending kyc for pan card or aadhar or company id card or kyc for users </h3>
+				<%else%>
+					<h3>Pending <%= @selected.gsub("_"," ")%> users </h3>
+				<%end%>
+			</div>
+			<div align="right">
+				<select id="selected_proof">
+					<option value="all">All</option>
+					<option value="pan_card">Pan Card</option>
+					<option value="aadhar">Aadhar</option>
+					<option value="company_id_card">Company ID Card</option>
+					<option value="kyc_verified">kyc verified</option>
+				</select>
+			</div>
+
+
+		<%@users.all.each do |user|%>
+		<tr>
+			<td>
+				<%if @show_email%>
+					<%=link_to user.email, show_path(model_name: 'User', id: user.id), target: :_blank%>
+				<%else%>
+					<%=link_to "#{user.email[0..1]}****@#{user.email[-2..-1]}", show_path(model_name: 'User', id: user.id), target: :_blank%>
+				<%end%>
+			</td>
+			<td>
+				<%if @selected=="pan_card"%>
+					<%=user.pan_card_status%>
+				<%elsif @selected=="aadhar"%>
+					<%=user.aadhar_status%>
+				<%elsif @selected=="company_id_card"%>
+					<%=user.company_id_card_status%>
+				<%elsif @selected=="kyc_verified"%>
+					<%=user.kyc_verified%>
+				<%else%>
+				<%end%>
+			</td>
+			<td><%=user.emp_status%></td>
+			<td><%=link_to "Change Status",pending_kyc_user_update_path(model_name: 'User', id: user.id),class: "btn btn-primary btn-sm", target: :_blank%>
+			<%=link_to "Edit",sub_section_kyc_path(model_name: 'User', id: user.id),class: "btn btn-primary btn-sm", target: :_blank%></td>
+		</tr>
+
+		<%end%>
+		</tbody>
+	</table>
+	<%= paginate @users, theme: 'twitter-bootstrap-3' rescue nil%>
+	<p><%=@total_users%> users</p>
+
+<%else%>
+	<div  align="center">
+		<h2>There are no pending employee status</h2>
+	</div>
+	<div align="right">
+		<select id="selected_proof">
+			<option value="all">All</option>
+			<option value="pan_card">Pan Card</option>
+			<option value="aadhar">Aadhar</option>
+			<option value="company_id_card">Company ID Card</option>
+			<option value="kyc_verified">kyc verified</option>
+		</select>
+	</div>
+<%end%>
+<script type="text/javascript">
+	$(document).ready(()=>{
+		if ("<%=@selected%>"!==""){
+			$("#selected_proof").val("<%=@selected%>");
+		}
+		else{
+			$("#selected_proof").val("all");
+		}
+	});
+
+	$("#selected_proof").change(function () {
+		window.location="<%= pending_kyc_users_path%>?selected=" + $("#selected_proof").val();
+	});
+</script>

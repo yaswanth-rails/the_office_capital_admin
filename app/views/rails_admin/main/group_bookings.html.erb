@@ -1,0 +1,113 @@
+<div>
+	<div>
+		<h2 style="text-align: center; margin-top:0px;">Booking Details</h2>
+	</div>
+
+
+  <%if !@bookings.blank?%>
+    <table class="table table-condensed table-striped">
+      <tr>
+        <th>Workspace</th>
+        <td>
+          <%= link_to "#{@booking.workspace&.name}", show_path(model_name: 'Workspace', id: @booking.workspace&.id), target: "_blank" %>
+        </td>
+        <th>Booking Date</th>
+        <td><%=@booking.booking_date%></td>
+        <th>booked User</th>
+        <td>
+          <%= link_to "#{@booking_group.created_by&.email}", show_path(model_name: 'User', id: @booking_group.created_by&.id), target: "_blank" %>
+        </td>
+        <th>Company</th>
+        <td>
+          <%= link_to "#{@booking_group.created_by&.company&.name}", show_path(model_name: 'Company', id: @booking_group.created_by&.company&.id), target: "_blank" %>
+        </td>
+      </tr>
+      <tr>
+        <th>Group</th>
+        <td>
+          <%= link_to "#{@booking_group.group&.name}", show_path(model_name: 'Group', id: @booking_group.group&.id), target: "_blank" %>
+        </td>
+        <th>Reference Number</th>
+        <td><%=@booking.reference_number%></td>
+        <th>Booking Status</th>
+        <td><%=@booking_group.status%></td>
+        <th>Payment Status</th>
+        <td><%=@booking_group.payment_status%></td>
+      </tr>
+      <tr>
+        <th>payment_type</th>
+        <td><%=@booking_group.payment_type%></td>
+        <th>Total Amount</th>
+        <td><%=@booking_group.total_amount%></td>
+        <th>Refund Status</th>
+        <td><%=@booking_group.refund_status%></td>
+        <th>Refund Amount</th>
+        <td><%=@booking_group.refund_amount%></td>
+      </tr>
+      <tr>
+        <th>Canceled By</th>
+        <td><%=@booking_group&.canceled_by&.email%></td>
+        <th>Canceled At</th>
+        <td><%=@booking_group&.canceled_at&.strftime("%d-%b-%Y %H:%M:%S")%></td>
+        <th>Coupon Discount</th>
+        <td><%=@booking_group.coupon_discount%></td>
+        <th>Coupon Applied</th>
+        <td><%=@booking_group.coupon_applied_by&.email%></td>
+      </tr>
+    </table>
+  <div>
+    <h2 style="text-align: center; margin-top:0px;">Bookings</h2>
+  </div>
+    <table class="table table-condensed table-striped">
+      <tr>
+        <th>Sno</th>
+        <th>User</th>
+        <th>External Guest</th>
+        <th>Booked Date</th>
+        <th>Amount</th>
+        <th>Net Amount</th>
+        <th>Tax</th>
+        <th>total Amount</th>
+        <th>status</th>
+        <th>Payment Status</th>
+        <th>Refund Status</th>
+        <th>Refund Amount</th>
+        <th>Canceled By</th>
+        <th>Canceled At</th>
+        <th>Show</th>
+        <th>Cancel</th>
+      </tr>
+  		<%@bookings.each_with_index do|booking,index|%>
+  			<tr>
+  				<td><%=index+1%></td>
+          <td><%=booking.user.email rescue nil%></td>
+          <td><%=booking.external_guest.email rescue nil%></td>
+          <td><%=booking.start_time.strftime("%d-%b-%Y")%></td>
+          <td><%=booking.amount%></td>
+          <td><%=booking.net_amount%></td>
+          <td><%=booking.tax%></td>
+          <td><%=booking.total_amount%></td>
+          <td><%=booking.status%></td>
+          <td><%=booking.payment_status%></td>
+          <td><%=booking.refund_status%></td>
+          <td><%=booking.refund_amount%></td>
+          <td><%=booking&.canceled_by&.email%></td>
+          <td><%=booking&.canceled_at&.strftime("%d-%b-%Y %H:%M:%S")%></td>
+          <td>
+            <%= link_to "Show", show_path(model_name: 'Booking', id: booking.id), target: "_blank" %>
+          </td>
+          <td>
+            <%if booking.status.eql?"confirmed"%>
+              <%= link_to "Cancel", refund_path(model_name: 'Booking', id: booking.id), target: "_blank" %>
+            <%end%>
+          </td>
+  			</tr>
+  		<%end%>
+  	</table>
+    <%= paginate @statements, theme: 'twitter-bootstrap-3' rescue nil%>
+  <%else%>
+    <div style="float:left; width:85%">
+      <h2>There are no Bookings</h2>
+    </div>
+  <%end%>
+</div>

@@ -1,0 +1,74 @@
+<center>
+	<div class="container">
+		<div class="card" style="width: 40rem;">
+			<center><%= render partial: "user_selfie" %></center>
+			<div class="card-body">
+			  <h5 class="card-title"><%=@user.email%></h5>
+			  <p class="card-text">
+				  <%if @user.tier_verified%>
+				    <p>Verified: <span style="color: green;">&#10003;</span></p>
+				  <%else%>
+				   	<p>Verified: <span style="color: red;">&#10539;</span></p>
+				  <%end%>
+			  </p>
+			  <%if @user.banned || @user.unsubscribe %>
+					<div><%=@user.email%> is already blocked</div><br>
+					<!-- Model open for block user -->
+				  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"> Unblock User</button>
+
+		      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				    <div class="modal-dialog" role="document">
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				            <span aria-hidden="true">&times;</span>
+				          </button>
+				        </div>
+				        <%= form_tag(confirm_ban_withdraws_path, method: :post, local: true, data: { turbo: false }) do  %>
+				          <div class="modal-body">
+				            <h5 class="modal-title" id="exampleModalLabel">Are you sure, do you want to unblock user <b><%=@user.email%>?</b></h5>
+										<input type="hidden" name="unblock_user" value=1 />
+				          </div>
+				          <div class="modal-footer">
+					          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					          <input type="submit" class="btn btn-primary" value="Confirm" />
+				          </div>
+				        <%end%>
+			        </div>
+		        </div>
+		      </div>	
+		    	<!-- Model close -->
+				<%else%>
+				  <!-- Model open for block user -->
+				  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Block User</button>
+		      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				    <div class="modal-dialog" role="document">
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				            <span aria-hidden="true">&times;</span>
+				          </button>
+				        </div>
+
+				        <%= form_tag(confirm_ban_withdraws_path, method: :post, local: true, data: { turbo: false }) do  %>
+				          <div class="modal-body">
+				            <h5 class="modal-title" id="exampleModalLabel">Are you sure, do you want to block user <b><%=@user.email%>?</b></h5>
+				            <div class="form-group">
+				              <label for="message-text" class="col-form-label">Reason:</label>
+				              <textarea class="form-control" id="message-text" name= "user_ban_reason" required="required"></textarea>
+				            </div>
+				          </div>
+				          <div class="modal-footer">
+					          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					          <input type="submit" class="btn btn-primary" value="Confirm" />
+				          </div>
+				        <%end%>
+			        </div>
+		        </div>
+		      </div>	
+		      <!-- Model close -->
+		    <%end%>	
+		  </div>
+		</div>
+	</div>
+</center>

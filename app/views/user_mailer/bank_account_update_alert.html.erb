@@ -1,0 +1,82 @@
+	<%if @user.firstname.nil?%>
+		<p>Dear <%=@email%><p>
+	<%else%>
+		<p>Dear <%=@user.firstname.capitalize rescue nil%> <%=@user.lastname.capitalize rescue nil%>,</p>
+	<%end%>
+	<% if @bank_account.reject_bank_account == true  %>
+		<p>We are here to inform you that your Bank Account has been rejected because of the following reason:</p>
+		<b><%= @bank_account.reject_bank_account_reason %></b>
+	<% elsif @bank_account.verify == true %>
+		<p>We are here to inform you that your Bank Account has been accepted</p>
+	<% end %>
+	<p>Following are your bank details:</p>
+	<div style="padding-bottom:30px">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse">
+			<tbody>
+  			<tr>
+  				<td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+  					  Bank Name
+  				</td>
+  				<td style="border:solid 1px #ffb59f;background-color:#fff5f2;padding:6px 10px">
+  				  <strong><%=@bank_account.bank_name%></strong>
+  				</td>
+  			</tr>
+				<tr>
+				  <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+				    Account Holder Name
+				  </td>
+				  <td style="border:solid 1px #ffb59f;background-color:#fff5f2;padding:6px 10px">
+				    <strong><%=@bank_account.account_holder_first_name%></strong>
+				  </td>
+				</tr>
+				<tr>
+				  <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+				    Account Type
+				  </td>
+				  <td style="border:solid 1px #ffb59f;background-color:#fff5f2;padding:6px 10px">
+				    <strong><%=@bank_account.account_type%></strong>
+				  </td>
+				</tr>           
+				<tr>
+				  <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+				    Account Number
+				  </td>
+				  <td style="border:solid 1px #ffb59f;background-color:#fff5f2;padding:6px 10px">
+				    <strong><%=@bank_account.account_number%></strong>
+				  </td>
+				</tr>
+				<tr>
+				  <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+				    Branch Name
+				  </td>
+				  <td style="border:solid 1px #ffb59f;background-color:#fff5f2;padding:6px 10px">
+				    <strong><%=@bank_account.branch_name%></strong>
+				  </td>
+				</tr>
+				<tr>
+				  <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+				    City
+				  </td>
+				  <td style="border:solid 1px #ffb59f;background-color:#fff5f2;padding:6px 10px">
+				    <strong><%=@bank_account.city%></strong>
+				  </td>
+				</tr>
+				<tr>            
+				  <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+				    IFSC
+				  </td>
+				  <td style="border:solid 1px #ffb59f;background-color:#fff5f2;padding:6px 10px">
+				    <strong><%=@bank_account.ifsc_code%></strong>
+				  </td>
+				</tr>			  		
+			</tbody>
+		</table>
+	</div>
+	<%if !@ip.nil?%>
+		<p style="padding-left:10px">IP Address: <%=@ip%></p>
+		<p style="padding-left:10px">Location: <%=@city%>  & <%=@country%></p>
+		<p style="padding-left:10px">Browser: <%=@browser%></p>
+	<%end%>
+	
+
+		

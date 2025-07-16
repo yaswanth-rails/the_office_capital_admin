@@ -1,0 +1,23 @@
+<h2 style="text-align: center"> <%=@group.name%> Group Users </h2>
+
+<%if !@users.blank?%>
+	<table class="table table-condensed table-striped">
+		<tr>
+			<th>S.No</th>
+			<th>Name</th>
+			<th>Role</th>
+		</tr>
+		<%@users.each_with_index do|user,index|%>
+			<tr>
+				<td><%=index+1%></td>
+				<td>
+					<%=link_to user.firstname, show_path(model_name: "User", id: user.id), target: "_blank"%>
+          		</td>
+				<td><%=user.role%></td>
+			</tr>
+		<%end%>
+	</table>
+	<%= paginate @users, theme: 'twitter-bootstrap-3' rescue nil%>
+<%else%>
+	<h2>There are no online users</h2>
+<%end%>

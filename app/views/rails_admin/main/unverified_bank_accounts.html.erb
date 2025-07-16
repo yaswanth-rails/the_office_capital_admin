@@ -1,0 +1,36 @@
+<%if @bank_accounts.present?%>
+	<table class="table table-hover  table-condensed table-striped">
+		<thead>
+		<tr>
+			<th scope="col">First Name</th>
+			<th scope="col">Employee Status</th>
+      <th scope="col">Document Status</th>
+			<th scope="col">Action</th>
+		</tr>
+		</thead>
+		<tbody>
+		<%@bank_accounts.all.each do |bank_account|%>
+		<tr>
+			<td><%=link_to bank_account.account_holder_first_name, show_path(model_name: 'BankAccount', id: bank_account.id)%></td>
+			<td><%=bank_account.emp_status%></td>
+      <%if bank_account.reject_bank_account%>
+        <td>Rejected</td>
+      <%elsif bank_account.bank_account_proof.present?%>
+        <td>Pending</td>
+      <%else%>
+      	<td>Not uploaded</td>
+      <%end%>
+			<td><%=link_to "Edit",edit_path(model_name: 'BankAccount', id: bank_account.id),class: "btn btn-primary btn-sm"%>
+			<%=link_to "Change Status",unverified_bank_acc_update_path(model_name: 'BankAccount', id: bank_account.id),class: "btn btn-primary btn-sm"%></td>
+		</tr>
+
+		<%end%>
+		</tbody>
+	</table>
+	<%= paginate @bank_accounts, theme: 'twitter-bootstrap-3' rescue nil%>
+	<%=@bank_accounts.count%> bank accounts
+
+<%else%>
+	<h2>There are no pending employee status</h2>
+<%end%>
+

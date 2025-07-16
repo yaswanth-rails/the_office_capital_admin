@@ -1,0 +1,57 @@
+<div>
+  <div>
+    <h2 style="text-align: center; margin-top:0px;"><%=@job.title.capitalize%> Job Applications</h2>
+  </div>
+
+
+  <%if !@job_applications.blank?%>
+    <table class="table table-condensed table-striped">
+      <tr>
+        <th>Sno</th>
+        <th>Email</th>
+        <th>Interview Date</th>
+        <th>Status</th>
+        <th>Status Reason</th>
+        <th>Cmments/Remarks</th>
+        <th>Edit</th>
+        <th>Show</th>
+        <th>Interview Rounds</th>
+        <th>Applicant Answers</th>
+      </tr>
+      <%@job_applications.each_with_index do|job_application,index|%>
+        <tr>
+          <td><%=index+1%></td>
+          <td>
+            <%job_applicant = job_application.job_applicant%>
+            <%= link_to "#{job_applicant.email}", show_path(model_name: 'JobApplicant', id: job_applicant.id), target: "_blank" %>
+          </td>
+          <td><%=job_application.interview_date&.strftime("%d-%m-%Y")%></td>
+          <td><%=job_application.status%></td>
+          <td><%=job_application.status_reason%></td>
+          <td><%=job_application.comments_remarks%></td>
+          <td>
+            <%= link_to "Edit", edit_path(model_name: 'JobApplication', id: job_application.id), target: "_blank" %>
+          </td>
+          <td>
+            <%= link_to "Show", show_path(model_name: 'JobApplication', id: job_application.id), target: "_blank" %>
+          </td>
+          <td>
+            <%if job_application.interview_round_statuses.present?%>
+              <%= link_to "Interview Rounds", interview_rounds_path(model_name: 'JobApplication', id: job_application.id), target: "_blank" %>
+            <%end%>
+          </td>
+          <td>
+            <%if job_application.job_answers.present?%>
+              <%= link_to "Answers", answers_path(model_name: 'JobApplication', id: job_application.id), target: "_blank" %>
+            <%end%>
+          </td>
+        </tr>
+      <%end%>
+    </table>
+    <%= paginate @job_applications, theme: 'twitter-bootstrap-3' rescue nil%>
+  <%else%>
+    <div style="float:left; width:85%">
+      <h2>There are no Answers for this job application.</h2>
+    </div>
+  <%end%>
+</div>

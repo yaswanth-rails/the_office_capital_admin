@@ -1,0 +1,38 @@
+<section class="about_inner page">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1 ">
+        <div class="section_title">
+          <h2>Login</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="field">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true , class:"w-input"%>
+      </div>
+
+      <div class="field">
+        <%= f.label :password %><br />
+        <%= f.password_field :password,class:"w-input", autocomplete: "off" %>
+      </div>
+
+      <% if devise_mapping.rememberable? -%>
+          <div class="field">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me %>
+          </div>
+      <% end -%>
+
+      <div class="actions">
+        <%= f.submit "Log in" %>
+      </div>
+  <% end %>
+  <br>
+  <%= link_to "Sign up", root_path(anchor: "tjoin") %><br />
+  <%= link_to "Forgotten your password?", new_password_path(resource_name) %><br />
+</div>
+

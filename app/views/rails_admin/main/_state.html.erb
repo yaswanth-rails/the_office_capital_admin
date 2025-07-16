@@ -1,0 +1,34 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#state').change(function() {
+      $.ajax({
+        url: "/cities",
+        data: {state: $("#state").val(),country: $("#country").val()},
+        dataType: "script",
+        method: "get",
+        success: function(r){
+          console.log(r)
+        }
+      });
+    });
+  });
+</script>
+
+<div class="field">
+  <% user = User.find(params[:id]) rescue nil%>
+	<%if user.present? and user.country.present? %>
+    <%states = JSON.parse(File.read("#{Rails.root}/public/state.json"))%>
+    <%all_states = states.select{|state| state["countryCode"] == user.country }%>
+      
+		<% if user.state.present? %>
+      <%= select_tag "user[state]", options_for_select(all_states.map {|c| [c["name"], c["isoCode"]] },user.state), id: "state" %>
+		<%else%>
+      <%default = {"isoCode"=>"","name"=>"Choose a state"}%>
+			<%all_states << default %>
+			<%= select_tag "user[state]", options_for_select(all_states.map {|c| [c["name"], c["isoCode"]] },""), id: "state" %>
+		<%end%>
+	<%else%>
+		<%= select_tag "user[state]", options_for_select([]), id: "state" %>
+	<%end%>
+</div>
+

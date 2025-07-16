@@ -1,0 +1,73 @@
+<div>
+	<div style="float:left; width:80%">
+		<h2 style="text-align: center; margin-top:0px;"><%=@company.name%> <%=@account_type.upcase%> Wallet Statement </h2>
+	</div>
+  <div style="float:left;margin-top:0.5%;">
+
+    <select onchange="doAction(this.value);">
+      <%if @account_type.eql?"inr account"%>
+        <option value='inr account' selected>INR Account</option>
+        <option value='bonus account'>Bonus Account</option>
+      <%elsif @account_type.eql?"bonus account"%>
+        <option value='inr account'>INR Account</option>
+        <option value='bonus account' selected>Bonus Account</option>
+      <%end%>
+    </select>
+  </div>
+  <%if @error_message.present?%>
+    <div style="float:left; width:85%">
+        <h2><%=@error_message%></h2>
+      </div>
+  <%else%>
+    <%if !@statements.blank?%>
+    	<table class="table table-condensed table-striped">
+    		<tr>
+    			<th>S.No</th>
+          <th>Date</th>
+          <th>Transaction Type</th>
+    			<th>Credit</th>
+    			<th>Debit</th>
+    			<th>Balance</th>
+    			<th></th>
+    		</tr>
+       
+    		<%@statements.each_with_index do|statement,index|%>
+    			<tr>
+    				<td><%=index+1%></td>
+    				<td><%=statement.statement_date.strftime('%d/%m/%Y') rescue statement.created_at.strftime('%d/%m/%Y')%></td>
+            <td><%=statement.transaction_type%></td>
+    				<td>
+    					<%if statement.action.eql?"credit"%>
+    						<%=ApplicationHelper.inr_format(statement.amount)%>
+    					<%end%>
+    				</td>				
+    				<td>
+    					<%if statement.action.eql?"debit"%>
+    						<%=ApplicationHelper.inr_format(statement.amount)%>
+    					<%end%>
+    				</td>
+            <td>
+                <%=ApplicationHelper.inr_format(statement.balance.round(2))%>
+            </td>
+    				<td>
+    					<%= link_to "show", show_path(model_name: 'WalletHistory', id: statement.id), target: "_blank" %>
+    				</td>
+    			</tr>
+    		<%end%>
+        
+    	</table>
+      <%= paginate @statements, theme: 'twitter-bootstrap-3' rescue nil%>
+    <%else%>
+      <div style="float:left; width:85%">
+        <h2>There are no Transactions</h2>
+      </div>
+    <%end%>
+  <%end%>
+</div>
+
+<script type="text/javascript">
+  function doAction(val){
+    //Forward browser to new url
+    window.location="<%=statement_path(model_name: "#{@model_name}",id: "#{@id}")%>?account_type=" + val;
+  }
+</script>

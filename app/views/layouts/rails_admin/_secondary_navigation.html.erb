@@ -1,0 +1,62 @@
+<ul class="nav navbar-nav navbar-right root_links">
+  <% actions(:root).each do |action| %>
+    <li class="<%= action.action_name %>_root_link">
+      <%= link_to wording_for(:menu, action), { action: action.action_name, controller: 'rails_admin/main' }, class: "pjax label-white", style: "color: white;" %>
+    </li>
+  <% end %>
+  <% if main_app_root_path = (main_app.root_path rescue false) %>
+    <li>
+      <%= link_to t('Two Factor Authentication'), "/tocs/displayqr", class: "label-white", target: "_blank" %>
+    </li>
+  <% end %>
+  
+  <% if _current_user %>
+    <li>
+      <a href="<%=edit_path(model_name: 'toc', id: _current_user.id)%>">
+        <img alt="" src="http://www.gravatar.com/avatar/776ad3d8e46512a72d47207083dc4b48?s=30">
+        <span class="label-white"><%=_current_user.email%></span>
+      </a>
+    </li>
+    <% if logout_path.present? %>
+      <li>
+        <%= link_to content_tag('span', t('admin.misc.log_out'), class: "label label-danger"), logout_path, method: logout_method %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<style type="text/css">
+  .label {
+    display: inline;
+    padding: 0.2em 0.6em 0.3em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25em;
+}
+.label-danger {
+    background-color: #d9534f;
+}
+
+.navbar-nav.navbar-right:last-child {
+    margin-right: -15px;
+}
+.navbar-right {
+    float: right !important;
+}
+
+.label-white {
+  color: white;
+}
+li {
+  margin:  0px 10px;
+}
+a {
+  text-decoration: none;
+}
+
+</style>

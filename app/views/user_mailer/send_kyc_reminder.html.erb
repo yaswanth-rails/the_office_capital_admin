@@ -1,0 +1,89 @@
+<%if @user.firstname.nil?%>
+<p>Dear <%=@email%><p>
+<%else%>
+<p>Dear <%=@user.firstname.capitalize rescue nil%>,</p>
+<%end%>
+
+<p>Greetings for the day!,</p>
+
+<%if @proof.eql?"Pan Card"%>
+
+ 	<p>We hope this email finds you well. We would like to inform you that our records indicate that one of your Know Your Customer (KYC) documentation is due for 
+ 		<%if @user.pan_card_status.eql?"not uploaded"%>
+ 		submission.
+ 		<%elsif @user.pan_card_status.eql?"rejected"%> 
+ 		re-submission.
+ 		<%end%>
+ 	Ensuring up-to-date KYC information is crucial for maintaining the security and compliance standards of our services.</p>
+
+	<p>To complete this process, kindly follow the steps below: </br>
+	<span style="margin-left:5px"><b>*</b> Log in to your TheOfficeCapital™ account on our website.<span><br>
+	<span style="margin-left:5px"><b>*</b> Navigate to the KYC section.<span><br>
+	<span style="margin-left:5px"><b>*</b> Please upload your pan card.</p>
+
+	<p>Should you have any questions or require assistance during the
+
+ 		<%if @user.pan_card_status.eql?"not uploaded"%>
+ 		submission 
+ 		<%elsif @user.pan_card_status.eql?"rejected"%> 
+ 		re-submission 
+ 		<%end%>		
+
+		process, please don't hesitate to contact our support team at info@theofficecapital.com . We're here to help.</p>
+
+<%elsif @proof.eql?"Aadhar"%>
+ 	<p>We hope this email finds you well. We would like to inform you that our records indicate that one of your Know Your Customer (KYC) documentation is due for 
+ 		<%if @user.aadhar_status.eql?"not uploaded"%>
+ 		submission.
+ 		<%elsif @user.aadhar_status.eql?"rejected"%> 
+ 		re-submission.
+ 		<%end%>
+ 	Ensuring up-to-date KYC information is crucial for maintaining the security and compliance standards of our services.</p>
+
+	<p>To complete this process, kindly follow the steps below: </br>
+	<span style="margin-left:5px"><b>*</b> Log in to your TheOfficeCapital™ account on our website.<span><br>
+	<span style="margin-left:5px"><b>*</b> Navigate to the KYC section.<span><br>
+	<span style="margin-left:5px"><b>*</b> Please upload your aadhar card.</p>  
+
+	<p>Please ensure that your documents are clear, valid, and up-to-date to expedite the verification process. Incomplete or outdated submissions might result in delays.</p>
+
+	<p>Should you have any questions or require assistance during the
+
+ 		<%if @user.aadhar_status.eql?"not uploaded"%>
+ 		submission 
+ 		<%elsif @user.aadhar_status.eql?"rejected"%> 
+ 		re-submission 
+ 		<%end%>		
+
+		process, please don't hesitate to contact our support team at info@theofficecapital.com . We're here to help.</p>
+
+
+<%elsif @proof.eql?"Company ID Card"%>
+	
+ 	<p>We hope this email finds you well. We would like to inform you that our records indicate that one of your Know Your Customer (KYC) documentation is due for 
+ 		<%if @user.company_id_card_status.eql?"not uploaded"%>
+ 		submission.
+ 		<%elsif @user.company_id_card_status.eql?"rejected"%> 
+ 		re-submission.
+ 		<%end%>
+ 	Ensuring up-to-date KYC information is crucial for maintaining the security and compliance standards of our services.</p>
+
+	<p>To complete this process, kindly follow the steps below: </br>
+	<span style="margin-left:5px"><b>*</b> Log in to your TheOfficeCapital™ account on our website.<span><br>
+	<span style="margin-left:5px"><b>*</b> Navigate to the KYC section.<span><br>
+	<span style="margin-left:5px"><b>*</b> Please upload your company id card</p>
+
+	<p>Please ensure that your documents are clear, valid, and up-to-date to expedite the verification process. Incomplete or outdated submissions might result in delays.</p>
+
+	<p>Should you have any questions or require assistance during the
+
+ 		<%if @user.company_id_card_status.eql?"not uploaded"%>
+ 		submission 
+ 		<%elsif @user.company_id_card_status.eql?"rejected"%> 
+ 		re-submission 
+ 		<%end%>		
+
+		process, please don't hesitate to contact our support team at info@theofficecapital.com . We're here to help.</p>
+<%end%>
+
+<p>Thank you for your cooperation in ensuring the security and integrity of our services. We appreciate your continued trust in TheOfficeCapital™, Inc.</p>

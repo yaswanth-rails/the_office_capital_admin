@@ -1,0 +1,89 @@
+	<style type="text/css">
+	.hidden {
+		display: none;
+	}
+</style>
+
+<div id="resume">
+	<%= form_for @user ,url:job_applicant_resume_edit_path, method: :post,html: { multipart: true }, local: true, data: { turbo: false } do  |form|%>
+		<div class="form-group row">
+			<label for="resume" class="col-sm-2 col-form-label">Resume</label>
+			<div class="col-sm-6">
+				<%if @user.resume_status != "accepted"%>
+					<%if @user.resume.present?%>
+						<%=render partial: 'proof', locals: {value: @user.resume_url, form: @user, field_name: 'resume', model: 'job_applicant' }%>
+						<%if @user.resume_status == "accepted"%>
+							<%=render partial: 'job_download', locals: {value: @user.resume.url,filename: @user.resume_identifier , bucket: ENV["RESUME_BUCKET"] }%>
+						<%end%>
+					<%else%>
+						<%= form.file_field :resume,class:"form-control"%>
+					<%end%>
+				<%else%>
+					<%=render partial: 'profile_pic', locals: {value: @user.resume.url}%>
+					<%=render partial: 'job_download', locals: {value: @user.resume.url,filename: @user.resume_identifier , bucket: ENV["RESUME_BUCKET"] }%>
+				<%end%>
+			</div>
+		</div>
+		<%if @user.resume_status == "rejected"%>
+			<div class="form-group row">
+				<label for="resume_rejected_reason" class="col-sm-2 col-form-label">Resume reject reason</label>
+				<div class="col-sm-6">
+					<h5 style="color: red"><%=@user.resume_rejected_reason%></h5>
+				</div>
+			</div>
+		<%end%>
+		<div class="col-sm-2">
+		</div>
+		<div class="col-sm-6">
+			<%if @user.resume_status != "accepted"%>
+				<button type="submit" class="btn btn-primary btn-md">Submit</button>
+				<button type="button" class="btn btn-primary btn-md" id="reject">Change Status</button>
+			<%end%>
+		</div>
+	<%end%>
+</div>
+<div class="hidden" id="reason">
+	<%= form_for @user ,url:job_applicant_change_proof_status_path(:proof=>"resume"), method: :post do  |form|%>
+		<div class=" form-group row">
+			<label for="resume_status" class="col-sm-2 col-form-label">Select Status:</label>
+			<div class="col-sm-6 ">
+			<%= form.select :resume_status,["not uploaded","pending","accepted","rejected"],class: "form-control"%>
+			</div>
+		</div>
+		<div class="form-group row hidden" id="reason1">
+			<label for="resume_rejected_reason" class="col-sm-2 col-form-label">Resume rejected reason: </label>
+			<div class="col-sm-6 ">
+				<%= form.text_field :resume_rejected_reason,class: "form-control"%>
+			</div>
+		</div>
+		<br>
+		<div class="form-group row">
+			<label for="resume_status_alert" class="col-sm-2 col-form-label">Send Resume status alert email to applicant:</label>
+			<div class="col-sm-6">
+				<%= form.check_box :resume_status_alert%>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<%= form.submit "Submit",class: "btn btn-primary btn-md"%>
+		</div>
+	<%end%>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#reject").on("click",function() {
+		$("#reason").removeClass("hidden");
+		$("#reject").addClass("hidden");
+		$("#resume").addClass("hidden");
+		$("#job_applicant_resume_status").on("change",function() {
+		var value1 = $(this).val()
+		if (value1=="rejected"){ 
+			$("#reason1").removeClass("hidden");
+		}
+		else{
+			$("#reason1").addClass("hidden");
+		}
+		
+	})
+	})
+})
+</script>

@@ -1,0 +1,53 @@
+<script>
+   $(document).ready(function() {
+    $('#job_applicant').change(function() {
+       $.ajax({
+         url: "/get_job_applications",
+         data: {job_applicant_id: $("#job_applicant").val()},
+         headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+         },
+         dataType: "script",
+         method: "post",
+         success: function(r){
+         }
+       });
+     });
+    });
+</script>
+
+  
+    <div class="field">
+      <!-- plan -->
+      <% interview_round_status = InterviewRoundStatus.find(params[:id]) rescue nil %>
+      <% job_applicants = JobApplicant.all.order("email").select(:id,:email)%>
+      <%if interview_round_status.present?%>
+      <div class="control-group row mb-3 belongs_to_association_type interview_round_field " id="interview_round_status_interview_round_id_field">
+        <div class="col-sm-10 controls">
+          <div class="row">
+            <div class="col-sm-4">
+              <%= select_tag "interview_round_status[job_applicant_id]", options_for_select(job_applicants.map {|u| [u.email, u.id] },interview_round_status.job_applicant_id), id: "job_applicant" %>
+              <%#= select_tag "interview_round_status[job_applicant_id]",
+                options_for_select(job_applicants.map { |u| [u.email, u.id] }, interview_round_status.job_applicant_id),
+                id: "job_applicant",
+                data: {
+                  filteringselect: true,
+                  options: {
+                    xhr: false,
+                    remote_source: "/toc/interview_round?associated_collection=interview_round&compact=true&current_action=update&source_abstract_model=interview_round_status&source_object_id=8"
+                  }.to_json
+                },
+                placeholder: "Search",
+                style: "display: none;" %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%else%>
+        <%= select_tag "interview_round_status[job_applicant_id]", options_for_select([["Choose Applicant", ""]] + job_applicants.map { |u| [u.email, u.id] }), id: "job_applicant" %>
+      <%end%>
+      
+    </div>
+
+    
+

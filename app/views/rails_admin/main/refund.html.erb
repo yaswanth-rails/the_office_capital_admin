@@ -1,0 +1,98 @@
+<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+<!-- Javascript -->
+<script>
+   $(function() {
+      $( "#refund_requested_at" ).datepicker();
+      $( "#refund_requested_at" ).datepicker("show");
+   });
+</script>
+
+<h2 style="text-align: center"> Booking Refund Details </h2>
+<div style="padding-bottom: 50px;">
+	<div style="float:left">
+		<p><b>Workspace Type:</b> <%=@workspace_type%></p>
+		<p><b>Workspace: </b> <%=@workspace.name%></p>
+		<p><b>Reference Number: </b> <%=@booking.reference_number%></p>
+		<p><b>Date of booking: </b> <%=@booking.booking_date.strftime("%d-%m-%Y")%></p>
+		<%if @workspace_type.eql?"Desk"%>
+			<p><b>Date booked for: </b> <%=@booking.start_time.strftime("%d-%m-%Y")%></p>
+		<%elsif @workspace_type.eql?"Meeting Room"%>
+			<p><b>Meeting start date and sime: </b> <%=@booking.start_time.strftime("%d-%m-%Y %H:%M")%></p>
+			<p><b>Meeting end date and sime: </b> <%=@booking.end_time.strftime("%d-%m-%Y %H:%M")%></p>
+		<%end%>
+		<p><b>Status: </b> <%=@booking.status%></p>
+		<p><b>Amount: </b> <%=@booking.amount%></p>
+		<p><b>Net Amount: </b> <%=@booking.net_amount%></p>
+		<p><b>Tax: </b> <%=@booking.tax%></p>
+		<p><b>Total Amount: </b> <%=@booking.total_amount%></p>
+		<p><b>Payment Method: </b> <%=@booking.payment_type%></p>
+		<p><b>Cancelation Fee Percentage: </b> <%=@booking.booking_cancellation_percentage%>%</p>
+
+		<%if @cancelation_fee > 0%>
+			<p><b>Cancelation Fee:</b> <%=ApplicationHelper.inr_format(@cancelation_fee)%></p>
+		<%end%>
+
+		<%if @booking.status.eql?"canceled"%>
+			<%if @total_refund > 0 and @booking.payment_type.eql?"razorpay"%>
+				<p>The INR i.e refunded to your wallet is: <b><%=ApplicationHelper.inr_format(@total_refund)%></b></p>
+			<%else%>
+				<%if @refund_bonus > 0%>
+					The bonus amount <b><%=ApplicationHelper.inr_format(@refund_bonus)%></b> credited back to your company bonus account.<br/>
+				<%end%>
+				The amount <b>Rs. <%=ApplicationHelper.inr_format(@wallet_applied)%></b> credited to company wallet.
+			<%end%>
+		<%elsif @booking.status.eql?"confirmed"%>
+			<%if @total_refund > 0 and @booking.payment_type.eql?"razorpay"%>
+				<p>The INR i.e refunded to your wallet is: <b><%=ApplicationHelper.inr_format(@total_refund)%></b></p>
+			<%else%>
+				<%if @refund_bonus > 0%>
+					The bonus amount <b><%=ApplicationHelper.inr_format(@refund_bonus)%></b> will be credited back to your company bonus account.<br/>
+				<%end%>
+				The amount <b>Rs. <%=ApplicationHelper.inr_format(@wallet_applied)%></b> will be credited to your company wallet.
+			<%end%>
+		<%end%>
+	</div>
+	<div style="float: right;margin-right: 5%">
+		<%if !@booking.status.eql?"canceled"%>
+			<%if (@booking.status.eql?"confirmed" or @booking.status.eql?"visited") and @booking.payment_status.eql?"paid"%>
+				<%= form_tag(process_refund_path, method: :get,class: "form-horizontal form-label-left") do  %>
+					<div class="form-group">
+						<label >Enter OTP : </label>		
+						<div class="form-control_div">
+					  	<div class="col-md-10" style="float:left">
+					    	<input type="number" autocomplete="off" class="form-control" name= "otp" required="required"/>
+					  	</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label >Remarks : </label>		
+						<div class="form-control_div">
+					  	<div class="col-md-10" style="float:left">
+							<textarea class="form-control" data-richtext="false" data-options="{}" rows="3" cols="25" name="remarks" id="remarks" required="required"></textarea>
+					  	</div>
+						</div>
+					</div>			
+
+					<div class="form-group">
+						<label >Cancelation Percentage: </label>		
+						<div class="form-control_div">
+					  	<div class="col-md-10" style="float:left">
+					    	<input type="number" autocomplete="off" class="form-control" id="cancelation_percentage" name= "cancelation_percentage" required="required" value="<%=@booking.booking_cancellation_percentage%>"/>
+					  	</div>
+						</div>
+					</div>
+					<input type="hidden" name="id" value="<%=@booking.id%>"/>
+
+				  <div class="form-group"> 
+				    <input style="margin-top:10px" type="submit" class="btn btn-success" value="Process Refund" />
+				  </div>	
+				<%end%>
+			<%end%>
+		<%end%>
+	</div>
+</div>
+
+<div></div>

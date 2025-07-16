@@ -1,0 +1,19 @@
+<div class="field">
+  <!-- City -->
+  <% user = User.find(params[:id]) rescue nil %>
+	<%if user.present? and user.country.present? and user.state.present? %>
+    <%cities = JSON.parse(File.read("#{Rails.root}/public/city.json")) rescue []%>
+    <%all_cities = cities.select{|city| city["countryCode"] == user.country and city["stateCode"] == user.state}%>
+		<% if user.city.present? %>
+			<%if all_cities.present?%>
+				<%= select_tag "user[city]", options_for_select(all_cities.pluck("name"),user.city), id: "my_city" %>
+			<%else%>
+				<input type="text" name="user[city]" id="my_city" value="<%=user.city%>">
+			<%end%>
+		<%else%>
+			<%= select_tag "user[city]", options_for_select(all_cities.pluck("name")," "), id: "my_city" %>
+		<%end%>
+	<%else%>
+		<%= select_tag "user[city]", options_for_select([]), id: "my_city" %>
+	<%end%>
+</div>

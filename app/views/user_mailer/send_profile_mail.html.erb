@@ -1,0 +1,10 @@
+
+<%if @user.firstname.present? || @user.lastname.present?%>
+	<p>Dear <%=@user.firstname.capitalize rescue nil%> <%=@user.lastname.capitalize  rescue nil%>,</p>
+<%else%>
+	<p>Dear <%=@email%>,<p>
+<%end%>
+
+<p>Your profile has been updated </p>
+<p>Updated fields: <%= "#{@changes}" %></p>
+

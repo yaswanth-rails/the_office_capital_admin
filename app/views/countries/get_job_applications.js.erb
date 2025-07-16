@@ -1,0 +1,18 @@
+// Find the job_application_id select box
+var job_application_id = document.getElementById("job_application_id");
+// Clear the options in the select box
+while (job_application_id.firstChild) job_application_id.removeChild(job_application_id.firstChild);
+
+// Add a placeholder
+var placeholder = document.createElement("option");
+placeholder.text = "Choose JOb Application";
+placeholder.value = "";
+placeholder.placeholder = true;
+job_application_id.appendChild(placeholder);
+
+// Add the percentages
+<%if @job_applications.present?%>
+  <% @job_applications.each do |j| %>
+    job_application_id.options[job_application_id.options.length] = new Option('<%= j&.job&.role %>', '<%= j.id %>')
+  <% end %>
+<%end%>

@@ -1,0 +1,9 @@
+
+<%if @user.firstname.present? || @user.lastname.present?%>
+	<p>Admin with id <%=@admin_id %> uploaded company id card of user <%=@user.firstname.capitalize rescue nil%> <%=@user.lastname.capitalize rescue nil%></p>
+<%else%>
+    <p>Admin with id <%=@admin_id %> uploaded company id card of user <%=@email%> <p>
+<%end%>
+
+<p>Email: <%=@email%></p>
+<p>User Id: <%=@user.id%></p>

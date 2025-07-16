@@ -1,0 +1,29 @@
+<h2 style="text-align: center"> Banned/Unsubscribed Users </h2>
+
+<%if !@banned_users.blank?%>
+	<table class="table table-condensed table-striped">
+		<tr>
+			<th>S.No</th>
+			<th>Name</th>
+			<th>Current Sign in ip</th>
+			<th>Last Response At</th>
+			<th>User Register From</th>
+			<th>Banned</th>
+			<th>Unsubscribed</th>
+		</tr>
+		<%@banned_users.each_with_index do|user,index|%>
+			<tr>
+				<td><%=index+1%></td>
+				<td><%=link_to user.firstname, show_path(model_name: "User", id: user.id), target: "_blank" %>
+				<td><%=user.current_sign_in_ip%></td>
+				<td><%=user.last_response_at%></td>
+				<td><%=user.source%></td>
+				<td><%=user.banned%></td>
+				<td><%=user.unsubscribe%></td>
+			</tr>
+		<%end%>
+	</table>
+	<%= paginate @banned_users, theme: 'twitter-bootstrap-3' rescue nil%>
+<%else%>
+	<h2>There are no banned/unsubscribed users</h2>
+<%end%>

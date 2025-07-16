@@ -1,0 +1,34 @@
+<section class="about_inner page">
+
+<div class="container" style="margin-top:10%">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-8 col-md-offset-1">
+        <h2 >Please enter your Google Authenticator token:</h2>
+        <br/>
+        <%= form_for(resource, as: resource_name, url: [resource_name, :checkga], html: { method: :put }) do |f| %>
+        
+          <%= f.hidden_field :tmpid, {value: @tmpid} %>
+
+          <div class="field">
+            <%#= f.text_field :gauth_token, autocomplete: :off%>
+            <%=f.text_field :gauth_token, autocomplete: "off", class: "form-control col-md-7 col-xs-12", autofocus: true%>
+            <!-- <input autocomplete="off" type="text" name="user[gauth_token]" id="user_gauth_token" class="w-input"> -->
+          </div>
+          <div class="actions">
+            <%#= f.submit I18n.t('submit_token', scope: 'devise') %>
+            <input type="submit" class="btn btn-default subs-btn" name="commit" value="Verify Token">
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+
+
+
+
+

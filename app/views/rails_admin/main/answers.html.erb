@@ -1,0 +1,38 @@
+<div>
+  <div>
+    <h2 style="text-align: center; margin-top:0px;">Answers</h2>
+  </div>
+
+
+  <%if !@job_answers.blank?%>
+    <table class="table table-condensed table-striped">
+      <tr>
+        <th>Sno</th>
+        <th>Question</th>
+        <th>String Response</th>
+        <th>Boolean Response</th>
+      </tr>
+      <%@job_answers.each_with_index do|job_answer,index|%>
+        <tr>
+          <td><%=index+1%></td>
+          <%job_question = job_answer.job_question%>
+          <td><%=job_question.name%></td>
+          <td>
+            <%if !job_question.question_type.eql?"true_or_false"%>
+              <%=job_answer.string_response%>
+            <%end%>
+          </td>
+          <td>
+            <%if job_question.question_type.eql?"true_or_false"%>
+              <%=job_answer.boolean_response%>
+            <%end%>
+          </td>
+        </tr>
+      <%end%>
+    </table>
+  <%else%>
+    <div style="float:left; width:85%">
+      <h2>There are no Answers for this job application.</h2>
+    </div>
+  <%end%>
+</div>

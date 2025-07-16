@@ -1,0 +1,77 @@
+<table class="table">
+	<tbody>
+		<tr>
+			<th>Full name</th>
+			<td><%= @user.full_name%></td>
+		</tr>
+	</tbody>
+</table>
+<table class="table table-hover  table-condensed table-striped">
+	<thead class="thead-dark">
+	<tr>
+		<th>S.no</th>
+		<th>Proof</th>
+		<th>Status</th>
+		<th>Action</th>
+		<th>Reminder</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<th scope="row">1</th>
+		<td>Aadhar</td>
+		<td><%=@user.aadhar_status%></td>
+		<td>
+			<%if @user.aadhar_status != "accepted"%>
+				<%= link_to "Edit", job_applicant_aadhar_edit_path(model_name: 'JobApplicant', id: @user.id),class: "btn btn-primary btn-sm", target: "_blank" %>
+			<%end%>
+		</td>
+		<td>
+			<%if @user.aadhar_status == "not uploaded" or @user.aadhar_status == "rejected"%>
+				<%= link_to "Send Reminder", job_applicant_kyc_path(model_name: 'JobApplicant', id: @user.id, kyc_reminder: "true", proof: "Aadhar"),class: "btn btn-primary btn-sm"%>
+			<%end%>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">2</th>
+		<td>Resume</td>
+		<td><%=@user.resume_status%></td>
+		<td>
+		<%if @user.resume_status != "accepted"%>
+			<%= link_to "Edit", job_applicant_resume_edit_path(model_name: 'JobApplicant', id: @user.id),class: "btn btn-primary btn-sm", target: "_blank" %>
+		<%end%>
+		</td>
+		<td>
+			<%if @user.resume_status == "not uploaded" or @user.resume_status == "rejected"%>
+				<%= link_to "Send Reminder", job_applicant_kyc_path(model_name: 'JobApplicant', id: @user.id, kyc_reminder: "true", proof: "Resume"),class: "btn btn-primary btn-sm"%>
+			<%end%>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">3</th>
+		<td>Verified</td>
+		<td><%=@user.verified%></td>
+		<td>
+		<%if @user.verified != true%>
+			<%= link_to "Edit", job_applicant_verified_edit_path(model_name: 'JobApplicant', id: @user.id),class: "btn btn-primary btn-sm", target: "_blank" %>
+		<%end%>
+		</td>
+		<td>
+
+		</td>
+	</tr>
+	</tbody>
+</table>
+
+<script>
+  $(function() {
+  	var kyc_reminder="<%=@kyc_reminder%>";
+  	if (kyc_reminder == "true")
+  	{
+			alert("<%=@proof%> reminder sent successfully");
+			kyc_reminder=false;
+			const url = window.location.origin + window.location.pathname;
+			window.history.replaceState({}, document.title, url);
+  	}
+  });
+</script>

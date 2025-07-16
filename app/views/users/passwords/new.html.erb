@@ -1,0 +1,30 @@
+<section class="about_inner page">
+  <div class="container">            
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+          <!-- ABOUT US SECTION TITLE-->
+        <div class="section_title">
+          <h2>Forgot your password ?</h2>
+          <center>
+         <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+          <%= devise_error_messages! %>
+
+          <div class="field" style="margin: 20px;">
+            <%= f.label :email %><br />
+            <%= f.email_field :email, autofocus: true, class:"w-input" %>
+          </div>
+
+          <div class="actions">
+            <%= f.submit "Send me reset password instructions" , class:"btn home-btn"%>
+          </div>
+        <% end %>
+        </center>
+        </div>
+      </div>
+    </div>        
+  </div>
+</section>
+
+
+
+<%#= render "users/shared/links" %>

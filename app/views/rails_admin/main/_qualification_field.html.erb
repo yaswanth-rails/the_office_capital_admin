@@ -1,0 +1,41 @@
+<% data = @object.qualification || {} %>
+
+<div>
+  <label>
+    <%= check_box_tag 'job[qualification][degree_pg][degree_pg]', '1',
+      data.dig('degree_pg', 'degree_pg').to_s == '1' %> Degree (or) P.G
+  </label>
+
+  <div style="margin-left: 20px;">
+    <strong>B.Tech</strong><br>
+    <% %w[Any CSE ECE IT Mech Civil].each do |branch| %>
+      <% key = branch.downcase %>
+      <label>
+        <%= check_box_tag "job[qualification][Btech][#{key}]", '1',
+          data.dig("Btech", key).to_s == '1' %> <%= branch %>
+      </label>
+    <% end %>
+  </div>
+
+  <div style="margin-left: 20px; margin-top: 10px;">
+    <strong>M.Tech</strong><br>
+    <% %w[Any CSE ECE IT Mech Civil].each do |branch| %>
+      <% key = branch.downcase %>
+      <label>
+        <%= check_box_tag "job[qualification][Mtech][#{key}]", '1',
+          data.dig('Mtech', key).to_s == '1' %> <%= branch %>
+      </label>
+    <% end %>
+  </div>
+
+  <div style="margin-left: 20px; margin-top: 10px;">
+    <label>
+      <%= check_box_tag 'job[qualification][mca][mca]', '1',
+        data.dig('mca', 'mca').to_s == '1' %> MCA
+    </label><br>
+    <label>
+      <%= check_box_tag 'job[qualification][msc][computers]', '1',
+        data.dig('msc', 'computers').to_s == '1' %> M.Sc (Computers)
+    </label>
+  </div>
+</div>

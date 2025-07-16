@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+<body>
+
+	<div><div dir="auto"><div><br><br></div><div>
+	<div style="background:#f3f3f3;color:#565656;font-family:Avenir,Helvetica,Arial,sans-serif;font-size:16px;font-weight:100;padding:40px 20px;text-align:center" align="center">
+
+	    <div style="margin:40px auto;font-size: 20px"><p>Need any help? we love to support you, please write to us at <a href="#" target="_blank" style="color:#185285;font-weight:bold" target="_blank">theofficecapital.com</a>.</p>
+		</div>	    
+		<hr style="border-top-color:#e2e2e2;border-top-style:solid;border-width:1px 0px 0px;margin:30px auto;max-width:300px">
+		<div style="background:#fff;border:1px solid #e2e2e2;margin:20px auto;max-width:536px;min-width:300px;padding:40px;text-align:left" align="left">
+
+			<p>Greetings for the day!,</p>
+
+			<p><h2><%= @resource.invited_by.firstname %> <%= @resource.invited_by.lastname %> has invited you to join TheOfficeCapital™ and try bitcoin!</h2></p>
+			<p>Email: <%=@resource.email%></p>
+
+			  <div><p><a href="<%=accept_invitation_url(@resource, invitation_token: @token)%>" style="background:#ec9f36;border-radius:8px;border:1px solid #ffffff;color:#fff;display:block;font-weight:lighter;margin-top:40px;padding:16px 0px;text-align:center;text-decoration:none;width:100%" target="_blank">Claim Now</a></p>
+			  </div>
+			<%if !@resource.user_message.blank?%>
+				<p><strong>Attached message:</strong></p>
+				<p><%=@resource.user_message%></p>
+			<%end%>
+			<p>Best Regards,</p>
+			<p><%= @resource.invited_by.firstname %> <%= @resource.invited_by.lastname %></p>
+		</div>
+
+		<div style="margin:40px auto;font-size: 20px"><p>Need any help? we love to support you, please write to us at <a href="mailto:theofficecapital.com" target="_blank" style="color:#185285;font-weight:bold" target="_blank">theofficecapital.com</a>.</p>
+		</div>
+		<hr style="border-top-color:#e2e2e2;border-top-style:solid;border-width:1px 0px 0px;margin:30px auto;max-width:300px">
+		<div style="color:#929292;font-size:12px;margin:20px auto;max-width:536px;min-width:300px"><p>You received this email because you are a TheOfficeCapital customer.</p><p>This notification was sent to <strong><a href="<%=@email%>" target="_blank"><%=@email%></a></strong>. TheOfficeCapital will never ask you for your password in an email. Please check your browser's address bar before you enter any login or personal information.</p>
+
+		</div>
+
+	  <div style="color:#929292;font-size:12px;margin:20px auto;max-width:536px;min-width:300px"><p>© 2014-<%=Time.new.year%> TheOfficeCapital Inc</p><div class="yj6qo"></div><div class="adL">
+	    </div></div><div class="adL">
+	  </div></div><div class="adL">
+	</div></div></div></div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<div style="background:#fff;border:1px solid #e2e2e2;margin:0px auto;max-width:536px;min-width:300px;padding:40px;text-align:left" align="left">
+<%if @user.firstname.present? || @user.lastname.present?%>
+	<p>Admin with id <%=@admin_id %> uploaded pan card of user <%=@user.firstname.capitalize rescue nil%> <%=@user.lastname.capitalize rescue nil%></p>
+<%else%>
+	<p>Admin with id <%=@admin_id %> uploaded pan card of user <%=@email%> <p>
+<%end%>
+
+<p>Email: <%=@email%></p>
+<p>UserId: <%=@user.id%></p>
+</div>

@@ -1,0 +1,14 @@
+
+	<%if @user.firstname.nil?%>
+		<p>Dear <%=@email%> ,</p>
+	<%else%>
+		<p>Dear <%=@user.firstname.capitalize%> <%=@user.lastname.capitalize%>,</p>
+	<%end%>
+	<p>We have received a request to update your e-mail address as <%=@user.unconfirmed_email%>.</p>				
+	<p>If you approve of this action, please click the link below to authorize this change:</p>
+
+	<p><%= link_to 'I Authorize This Change', @url.html_safe, {style: "background:#ec9f36;border-radius:8px;border:1px solid #ffffff;color:#fff;display:block;font-weight:lighter;margin-top:40px;padding:16px 0px;text-align:center;text-decoration:none;width:100%;"} %></p>
+	<p>If you did not initiate this process, please contact TheOfficeCapital™</p>
+
+
+	

@@ -1,0 +1,11 @@
+<p>Dear <%=@user.full_name.capitalize rescue nil%>,</p>
+<p>Greetings of the day!</p>
+
+<% if @exp_document_status == "rejected"  %>
+	<p>We are here to inform you that your experience document has been rejected because of the following reason(s):</p>
+	<p><b><%= @exp_document_rejected_reason %></b></p>
+
+<% elsif @exp_document_status == "accepted" %>
+	<p>We are here to inform you that your experience document has been accepted.</p>
+<% end %>
+

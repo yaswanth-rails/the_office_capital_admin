@@ -1,0 +1,10 @@
+<div style="background:#fff;border:1px solid #e2e2e2;margin:20px auto;max-width:536px;min-width:300px;padding:40px;text-align:left" align="left">
+	<p>Dear <%=@user.full_name.capitalize rescue nil%>,</p>
+
+	<% if @banned %>
+		<p> We would like to inform you that your profile has been banned.</p>
+		<p><b>Reason for ban:</b> <%= @banned_reason %></p>
+	<% else %>
+	 	<p> We are here to inform you that your profile is unbanned.</p>
+	<% end %>
+</div>

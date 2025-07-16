@@ -1,0 +1,20 @@
+
+<div class="field">
+  <!-- City -->
+  <% interview_round_status = InterviewRoundStatus.find(params[:id]) rescue nil %>
+	<%if interview_round_status && interview_round_status.job_applicant_id.present? %>
+		<% if interview_round_status&.job_applicant_id.present? %>
+			<%job_applicant = JobApplicant.find(interview_round_status.job_applicant_id)%>
+			<%job_applications = job_applicant.job_applications%>
+			<%= select_tag "interview_round_status[job_application_id]", options_for_select(job_applications.map {|j| [j&.job&.role, j.id] },interview_round_status.job_application_id), id: "job_application_id" %>
+		<%else%>
+			<%job_applications = JobApplication.all%>
+			<%= select_tag "interview_round_status[job_application_id]", options_for_select(job_applications.map {|j| [j&.job&.role, j.id] }," "), id: "job_application_id" %>
+		<%end%>
+	<%else%>
+		<%#= select_tag "interview_round_status[job_application_id]", options_for_select([]), id: "job_application_id" %>
+			<%job_applications = JobApplication.all%>
+        <%= select_tag "interview_round_status[job_application_id]", options_for_select([["Choose JOb Application", ""]] + job_applications.map { |j| [j&.job&.role, j.id] }), id: "job_application_id" %>
+	<%end%>
+</div>
+

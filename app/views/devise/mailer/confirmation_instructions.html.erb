@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+<body>
+
+	<div><div dir="auto"><div><br><br></div><div>
+	<div style="background:#f3f3f3;color:#565656;font-family:Avenir,Helvetica,Arial,sans-serif;font-size:16px;font-weight:100;padding:40px 20px;text-align:center" align="center">
+	    <div style="margin:40px auto;font-size: 20px"><p>Need any help? we love to support you, please write to us at <a href="#" target="_blank" style="color:#185285;font-weight:bold" target="_blank">theofficecapital.com</a>.</p>
+		</div>	    
+		<hr style="border-top-color:#e2e2e2;border-top-style:solid;border-width:1px 0px 0px;margin:30px auto;max-width:300px">
+		<%= render partial: '/user_mailer/email_text'%>
+		<div style="background:#fff;border:1px solid #e2e2e2;margin:20px auto;max-width:536px;min-width:300px;padding:40px;text-align:left" align="left">
+			<%if @resource.firstname.nil?%>
+				<p>Dear <%=@resource.email%> ,</p>
+			<%else%>
+				<p>Dear <%=@resource.firstname.capitalize%> <%=@resource.lastname.capitalize%>,</p>
+			<%end%>
+			<%if @resource.unconfirmed_email.nil?%>
+				<p>Please click the below given verification link in order confirm your account with us:</p>
+				<p><b><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></b></p>
+			<%else%>
+				<p>We have received a request to update your e-mail address as <%=@resource.unconfirmed_email%>.</p>				
+				<p>If you approve of this action, please click the link below to authorize this change:</p>
+				<p><%= link_to 'I Authorize This Change', confirmation_url(@resource, confirmation_token: @token) %></p>
+				<p>If you did not initiate this process, please contact theofficecapital.com</p>
+			<%end%>
+        
+			<p style="padding-left:10px">IP Address: <%=@resource.last_sign_in_ip%></p>
+			<p style="padding-left:10px">Location: <%=@resource.city%> & <%=@resource.country%></p>
+
+			<p>Best Regards,<br />Team CARE<br /><%=link_to "TheOfficeCapital Inc","https://www.theofficecapital.com"  %></p>
+						
+		</div>
+		
+		<div style="margin:40px auto;font-size: 20px"><p>Need any help? we love to support you, please write to us at <a href="mailto:theofficecapital.com" target="_blank" style="color:#185285;font-weight:bold" target="_blank">theofficecapital.com</a>.</p>
+		</div>
+		<hr style="border-top-color:#e2e2e2;border-top-style:solid;border-width:1px 0px 0px;margin:30px auto;max-width:300px">
+		<div style="color:#929292;font-size:12px;margin:20px auto;max-width:536px;min-width:300px"><p>You received this email because you are a TheOfficeCapital customer.</p><p>This notification was sent to <strong><%=@resource.firstname%> <%=@resource.lastname%> (<a href="<%=@resource.email%>" target="_blank"><%=@resource.email%></a>)</strong>. TheOfficeCapital will never ask you for your password in an email. Please check your browser's address bar before you enter any login or personal information.</p>
+
+		</div>
+
+	  <div style="color:#929292;font-size:12px;margin:20px auto;max-width:536px;min-width:300px"><p>© 2014-<%=Time.new.year%> TheOfficeCapital Inc</p><div class="yj6qo"></div><div class="adL">
+	    </div></div><div class="adL">
+	  </div></div><div class="adL">
+	</div></div></div></div>
+</body>
+</html>

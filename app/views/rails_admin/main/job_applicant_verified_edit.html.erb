@@ -1,0 +1,23 @@
+<%= form_for @user ,url:job_applicant_verified_edit_path, method: :post, local: true, data: { turbo: false } do  |form|%>
+	<div class="form-group row">
+		<label for="verified" class="col-sm-2 col-form-label">Verified</label>
+		<div class="col-sm-6">
+			<%= form.check_box :verified%>
+		</div>
+		<%if @user.verified !=true%>
+		<div class="form-group row">
+			<label for="verified_alert" class="col-sm-2 col-form-label">Send verified alert email to applicant:</label>
+			<div class="col-sm-6">
+				<%= form.check_box :verified_alert%>
+			</div>
+		</div>
+		<br>
+		<br>
+		<div class="col-sm-2">
+		</div>
+		<div class="col-sm-6">
+			<%= form.submit "Submit",class: "btn btn-primary btn-md"%>
+		</div>
+		<%end%>
+	</div>
+<%end%>

@@ -1,0 +1,89 @@
+	<style type="text/css">
+	.hidden {
+		display: none;
+	}
+</style>
+
+<div id="exp_document">
+	<%= form_for @user ,url:job_applicant_exp_document_edit_path, method: :post,html: { multipart: true }, local: true, data: { turbo: false } do  |form|%>
+		<div class="form-group row">
+			<label for="exp_document" class="col-sm-2 col-form-label">Experience Document </label>
+			<div class="col-sm-6">
+				<%if @user.exp_document_status != "accepted"%>
+					<%if @user.exp_document.present?%>
+						<%=render partial: 'proof', locals: {value: @user.exp_document_url, form: @user, field_name: 'exp_document', model: 'job_applicant' }%>
+						<%if @user.exp_document_status == "accepted"%>
+							<%=render partial: 'job_download', locals: {value: @user.exp_document.url,filename: @user.exp_document_identifier , bucket: ENV["RESUME_BUCKET"] }%>
+						<%end%>
+					<%else%>
+						<%= form.file_field :exp_document,class:"form-control"%>
+					<%end%>
+				<%else%>
+					<%=render partial: 'profile_pic', locals: {value: @user.exp_document.url}%>
+					<%=render partial: 'job_download', locals: {value: @user.exp_document.url,filename: @user.exp_document_identifier , bucket: ENV["RESUME_BUCKET"] }%>
+				<%end%>
+			</div>
+		</div>
+		<%if @user.exp_document_status == "rejected"%>
+			<div class="form-group row">
+				<label for="exp_document_rejected_reason" class="col-sm-2 col-form-label">Exp Document reject reason</label>
+				<div class="col-sm-6">
+					<h5 style="color: red"><%=@user.exp_document_rejected_reason%></h5>
+				</div>
+			</div>
+		<%end%>
+		<div class="col-sm-2">
+		</div>
+		<div class="col-sm-6">
+			<%if @user.exp_document_status != "accepted"%>
+				<button type="submit" class="btn btn-primary btn-md">Submit</button>
+				<button type="button" class="btn btn-primary btn-md" id="reject">Change Status</button>
+			<%end%>
+		</div>
+	<%end%>
+</div>
+<div class="hidden" id="reason">
+	<%= form_for @user ,url:job_applicant_change_proof_status_path(:proof=>"exp_document"), method: :post do  |form|%>
+		<div class=" form-group row">
+			<label for="exp_document_status" class="col-sm-2 col-form-label">Select Status:</label>
+			<div class="col-sm-6 ">
+			<%= form.select :exp_document_status,["not uploaded","pending","accepted","rejected"],class: "form-control"%>
+			</div>
+		</div>
+		<div class="form-group row hidden" id="reason1">
+			<label for="exp_document_rejected_reason" class="col-sm-2 col-form-label">Exp Document rejected reason:</label>
+			<div class="col-sm-6 ">
+				<%= form.text_field :exp_document_rejected_reason,class: "form-control"%>
+			</div>
+		</div>
+		<br>
+		<div class="form-group row">
+			<label for="exp_document_status_alert" class="col-sm-2 col-form-label">Send Exp Document status alert email to applicant:</label>
+			<div class="col-sm-6">
+				<%= form.check_box :exp_document_status_alert%>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<%= form.submit "Submit",class: "btn btn-primary btn-md"%>
+		</div>
+	<%end%>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#reject").on("click",function() {
+		$("#reason").removeClass("hidden");
+		$("#reject").addClass("hidden");
+		$("#job_exp_document").addClass("hidden");
+		$("#job_applicant_exp_document_status").on("change",function() {
+		var value1 = $(this).val()
+		if (value1=="rejected"){ 
+			$("#reason1").removeClass("hidden");
+		}
+		else{
+			$("#reason1").addClass("hidden");
+		}
+		
+	})
+	})
+})
+</script>

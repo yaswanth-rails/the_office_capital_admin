@@ -1,0 +1,27 @@
+<h2 style="text-align: center"> <%=@user.email%> Unique Logins </h2>
+
+<%if @unique_ips.count >=1%>
+	<table class="table table-condensed table-striped">
+		<tr>
+			<th style="width:0.5%">S.No</th>
+			<th style="width:30%">IP Address</th>
+			<th>Other Users</th>
+		</tr>
+		<%@unique_ips.each_with_index do|ip,index|%>
+			<tr>
+				<td><%=index+1%></td>
+				<td><%=ip%></td>
+				<%other_users=LoginHistory.where("ip_address=?",ip).pluck(:user_id).uniq%>
+				<%other_users.delete(params[:id].to_i)%>
+				<td>
+					<%other_users.each do |user_id|%>
+            <%=link_to user_id, statistics_path(model_name: "User", id: user_id), target: "_blank"%>
+						<%if other_users.last != user_id%>,<%end%> 
+					<%end%>
+				</td>
+			</tr>
+		<%end%>
+	</table>
+<%else%>
+	<h2>There are no Logins</h2>
+<%end%>

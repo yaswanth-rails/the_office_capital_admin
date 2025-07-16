@@ -1,0 +1,40 @@
+<!-- page content -->
+<div class="right_col" role="main">
+
+	<div class="container" style="margin-top: 7%">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-6">
+        <%= form_for(resource, as: resource_name, url: [resource_name, :displayqr], html: { method: :put }) do |f| %>
+					<%= render "devise/shared/error_messages", resource: resource %>
+					<h4 style="padding-bottom: 3%">We would highly recommend you to enable Google Authenticator</h4>
+        	<div class="field">
+	          <!--<label for="user_gauth_enabled" style="float: left;margin-right: 5%;">Google Authenticator Status:</label>-->
+	          <%= f.label :gauth_enabled, I18n.t('qrstatus', scope: 'devise.registration'), style: "float: left;margin-right: 5%;" %>
+	          <%= f.check_box :gauth_enabled %>
+	          <%= f.hidden_field :tmpid, value: @tmpid %>
+	        </div>
+	        <div class="field" style="clear:both" >
+	          <%= f.label :gauth_token, I18n.t('enter_token', scope: 'devise.registration') %>
+	          <%#= f.number_field :gauth_token, autocomplete: :off %>
+	          	<input autocomplete="off" class="w-input" style="width: 50%" type="number" name="toc[gauth_token]" id="user_gauth_token">	          	
+	        </div>          
+	        <div class="actions">
+	          <%= f.submit I18n.t('submit', scope: 'devise.registration'),class: "btn btn-green" %>	          
+	        </div>
+        <% end %>
+      </div>
+		      <div class="col-md-3">
+		      	<h2><%= I18n.t('title', scope: 'devise.registration') %></h2>
+						<%= google_authenticator_qrcode(resource) %>
+						<%#= form_for(resource, as: resource_name, url: [:refresh, resource_name, :displayqr], html: {method: :post}) do |f|%>
+							<!-- <p><%#= f.submit I18n.t('newtoken', {scope: 'devise.registration'}) %></p> -->
+						<%# end %>				
+		      </div>
+    </div>
+  </div>
+</div>
+<br>
+<center><%= link_to 'Skip TwoFactor Authentication', "/toc" %></center>
+</div>
+

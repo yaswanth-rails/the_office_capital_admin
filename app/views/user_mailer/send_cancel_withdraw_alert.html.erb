@@ -1,0 +1,76 @@
+  <%if @user.firstname.nil?%>
+    <p>Dear <%=@email%></p>
+  <%else%>
+    <p>Dear <%=@user.firstname.capitalize rescue nil%>,</p>
+  <%end%>
+
+  <p style="padding-left:10px">The Cash Withdrawal request has been cancelled</p>
+  <%if !@withdraw.cancel_reason.nil?%>
+    <p><b>Reason:</b> <%=@withdraw.cancel_reason%></p>
+  <%end%>
+  <p><b>Withdrawal Summary</b></p>
+
+  <div style="padding-bottom:30px">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse">
+      <tbody>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Order Number
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong><%=@withdraw.reference_number%></strong>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Date
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong><%=@withdraw.created_at.strftime("%A %B %d %Y")%></strong>
+          </td>
+        </tr>
+        <%if !@mobile_number.nil?%>
+          <tr>
+            <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+              Mobile Number
+            </td>
+            <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+              <strong><%=@mobile_number%></strong>
+            </td>
+          </tr>           
+        <%end%>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Cash requested for withdrawal
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong> <%=ApplicationHelper.inr_format(@withdraw.withdraw_amount)%></strong>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Transaction commission/fee
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong>Rs. <%=ApplicationHelper.inr_format(@withdraw.fee)%></strong>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            Total amount debited from your wallet            
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong>Rs. <%=ApplicationHelper.inr_format(@withdraw.amount)%></strong>
+          </td>             
+        </tr>
+        <tr>            
+          <td align="right" style="border:solid 1px #e0e0e0;background-color:#f7f7f7;padding:6px 10px">
+            The Available Balance in your wallet is            
+          </td>
+          <td style="border:solid 1px #e0e0e0;background-color:#ffffff;padding:6px 10px">
+            <strong>Rs. <%=ApplicationHelper.inr_format(@cash_balance)%></strong>
+          </td>
+        </tr>                          
+     </tbody>
+    </table>
+  </div>

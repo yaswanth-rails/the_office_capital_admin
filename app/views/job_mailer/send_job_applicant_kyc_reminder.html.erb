@@ -1,0 +1,31 @@
+<p>Dear <%=@user.full_name.capitalize rescue nil%>,</p>
+<p>Greetings for the day!,</p>
+
+<%if @proof.eql?"Aadhar"%>
+ 	<p>We hope this email finds you well. We would like to inform you that our records indicate that your Aadhar is due for 
+ 		<%if @user.aadhar_status.eql?"not uploaded"%>
+ 		submission.
+ 		<%elsif @user.aadhar_status.eql?"rejected"%> 
+ 		re-submission.
+ 		<%end%>
+ 	</p>
+
+	<p>To upload Aadhar, follow the steps below: </br>
+	<span style="margin-left:5px"><b>*</b> Log in to your TheOfficeCapital™ applicant account on our website.<span><br>
+	<span style="margin-left:5px"><b>*</b> Upload your aadhar card.</p>  
+
+	<p>Please ensure that your documents are clear, valid, and up-to-date to expedite the verification process.</p>
+
+<%elsif @proof.eql?"Resume"%>
+ 	<p>We hope this email finds you well. We would like to inform you that our records indicate that your Resume is due for 
+ 		<%if @user.resume_status.eql?"not uploaded"%>
+ 		submission.
+ 		<%elsif @user.resume_status.eql?"rejected"%> 
+ 		re-submission.
+ 		<%end%>
+ 	</p>
+
+	<p>To upload Resume, follow the steps below: </br>
+	<span style="margin-left:5px"><b>*</b> Log in to your TheOfficeCapital™ applicant account on our website.<span><br>
+	<span style="margin-left:5px"><b>*</b> Upload your resume.</p>  
+<%end%>

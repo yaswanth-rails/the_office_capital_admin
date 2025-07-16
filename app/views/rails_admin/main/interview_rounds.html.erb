@@ -1,0 +1,42 @@
+<div>
+	<div>
+		<h2 style="text-align: center; margin-top:0px;">Interview Round Details</h2>
+	</div>
+
+
+  <%if !@interview_rounds.blank?%>
+    <table class="table table-condensed table-striped">
+      <tr>
+        <th>Sno</th>
+        <th>Date</th>
+        <th>Round Name</th>
+        <th>Timing</th>
+        <th>Reschedule Date</th>
+        <th>Marks</th>
+        <th>status</th>
+        <th>Reject Reason</th>
+        <th></th>
+      </tr>
+  		<%@interview_rounds.each_with_index do|interview_round,index|%>
+  			<tr>
+  				<td><%=index+1%></td>
+          <td><%=interview_round.interview_round_date.strftime("%d-%b-%Y")%></td>
+          <td><%=interview_round.interview_round.name%></td>
+          <td><%=interview_round.timing%></td>
+          <td><%=interview_round&.reschedule_date&.strftime("%d-%b-%Y")%></td>
+          <td><%=interview_round.marks%></td>
+          <td><%=interview_round.test_status%></td>
+          <td><%=interview_round.reject_reason%></td>
+          <td>
+            <%= link_to "show", show_path(model_name: 'InterviewRoundStatus', id: interview_round.id), target: "_blank" %>
+          </td>
+  			</tr>
+  		<%end%>
+  	</table>
+    <%= paginate @interview_rounds, theme: 'twitter-bootstrap-3' rescue nil%>
+  <%else%>
+    <div style="float:left; width:85%">
+      <h2>There are no Interview Rounds</h2>
+    </div>
+  <%end%>
+</div>

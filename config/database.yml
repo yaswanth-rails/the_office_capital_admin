@@ -1,0 +1,9 @@
+production:
+  adapter: postgresql
+  encoding: unicode
+  pool: 40
+  database: <%=ENV["DBNAME"]%>
+  username: <%=ENV["DBUSERNAME"]%>
+  password: <%=ENV["PRODUCTION_DB_PASSWORD"]%>
+  host: <%=ENV["DBDOMAIN"]%>
+  port: 5432

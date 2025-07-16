@@ -1,0 +1,17 @@
+
+<%if @user.firstname.present? || @user.lastname.present?%>
+	<p>Dear <%=@user.firstname.capitalize rescue nil%> <%=@user.lastname.capitalize rescue nil%>,</p>
+<%else%>
+	<p>Dear <%=@email%>,<p>
+<%end%>
+<p>Greetings of the day!</p>
+
+<% if @aadhar_status == "rejected"  %>
+	<p>We are here to inform you that your aadhar has been rejected because of the following reason(s)</p>
+	<p><b><%= @aadhar_rejected_reason %></b></p>
+
+<% elsif @aadhar_status == "accepted" %>
+	<p>We are here to inform you that your aadhar has been accepted</p>
+	<p style="padding-left:10px"><b>aadhar ends with <%=@user.aadhar_number[-4..-1]%></p>
+<% end %>
+

@@ -1,0 +1,149 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  hello: "Hello world"
+  admin:  
+    actions:       
+      show_backup_code:
+        menu: "Show Backup Code"
+        breadcrumb: "Show Backup Code"
+        title: "Show Backup Code"            
+      loggedin_ips:
+        menu: "Loggedin Ips"
+        breadcrumb: "Loggedin Ips"
+        title: "Loggedin Ips"        
+      online_users:
+        menu: "Online Users"
+        breadcrumb: "Online Users"
+        title: "Online Users"
+      banned_users:
+        menu: "Banned Users"
+        breadcrumb: "Banned Users"
+        title: "Banned Users"
+      sub_section_kyc:
+        menu: "Sub Section Kyc"   
+        breadcrumb: "Sub Section Kyc"
+        title: "Sub Section Kyc"
+      pan_card_edit:
+        menu: "Pan Card Edit"   
+        breadcrumb: "Pan Card Edit"
+        title: "Pan Card Edit"
+      aadhar_edit:
+        menu: "Aadhar Edit"   
+        breadcrumb: "Aadhar Edit"
+        title: "Aadhar Edit"
+      company_id_card_edit:
+        menu: "Company Id Card Edit"   
+        breadcrumb: "Company Id Card Edit"
+        title: "Company Id Card Edit"
+      kyc_verified_edit:
+        menu: "Kyc verified Edit"
+        breadcrumb: "Kyc verified Edit"
+        title: "Kyc verified Edit"
+      pending_kyc_users:
+        menu: "Pending KYC users"
+        breadcrumb: "Pending KYC users"
+        title: "Pending KYC users"
+      pending_kyc_user_update:
+        menu: "Pending KYC user Update"
+        breadcrumb: "Pending KYC user Update"
+        title: "Pending KYC user Update"
+      statement:
+        menu: "Statement"
+        breadcrumb: "Statement"
+        title: "Statement"
+      kyc_update_for_withdraws:
+        menu: "Kyc Update For Withdraws"
+        breadcrumb: "Kyc Update For Withdraws"
+        title: "Kyc Update For Withdraws"
+      unverified_bank_accounts:
+        menu: "Unverified Bank Accounts"
+        breadcrumb: "Unverified Bank Accounts"
+        title: "Unverified Bank Accounts"
+      unverified_bank_acc_update:
+        menu: "Unverified Bank Account Update"
+        breadcrumb: "Unverified Bank Account Update"
+        title: "Unverified Bank Account Update"
+      company_users:
+        menu: "Company Users"
+        breadcrumb: "Company Users"
+        title: "Company Users"
+      group_users:
+        menu: "Group Users"
+        breadcrumb: "Group Users"
+        title: "Group Users"
+      group_bookings:
+        menu: "Group Bookings"
+        breadcrumb: "Group Bookings"
+        title: "Group Bookings"
+      job_applicant_kyc:
+        menu: "Job User KYC"   
+        breadcrumb: "Job User KYC"
+        title: "Job User KYC"
+      job_applicant_aadhar_edit:
+        menu: "Job User Aadhar Edit"   
+        breadcrumb: "Job User Aadhar Edit"
+        title: "Job User Aadhar Edit"
+      job_applicant_resume_edit:
+        menu: "Job User Resume Edit"   
+        breadcrumb: "Job User Resume Edit"
+        title: "Job User Resume Edit"
+      job_applicant_exp_document_edit:
+        menu: "Job User Exp Document Edit"   
+        breadcrumb: "Job User Exp Document Edit"
+        title: "Job User Exp Document Edit"
+      job_applicant_verified_edit:
+        menu: "Job User verified Edit"
+        breadcrumb: "Job User verified Edit"
+        title: "Job User verified Edit"
+      interview_rounds:
+        menu: "Interview Rounds"
+        breadcrumb: "Interview Rounds"
+        title: "Interview Rounds"
+      questions:
+        menu: "Quesstions"
+        breadcrumb: "Quesstions"
+        title: "Quesstions"
+      answers:
+        menu: "Answers"
+        breadcrumb: "Answers"
+        title: "Answers"
+      job_applications:
+        menu: "Job Applications"
+        breadcrumb: "Job Applications"
+        title: "Job Applications"
+      refund:
+        menu: "Refund"
+        breadcrumb: "Refund"
+        title: "Refund"
+      process_refund:
+        menu: "Process Refund"
+        breadcrumb: "Process Refund"
+        title: "Process Refund"
+      booking_group_refund:
+        menu: "Booking Group Refund"
+        breadcrumb: "Booking Group Refund"
+        title: "Booking Group Refund"
+      process_booking_group_refund:
+        menu: "Process Booking Group Refund"
+        breadcrumb: "Process Booking Group Refund"
+        title: "Process Booking Group Refund"
