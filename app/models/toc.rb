@@ -13,6 +13,7 @@ class Toc < ApplicationRecord
   devise :google_authenticatable,:database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
+
   # def self.current
  #    Thread.current[:toc]
  #    # RequestStore.store[:toc]
