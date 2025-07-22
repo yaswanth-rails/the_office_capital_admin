@@ -26,11 +26,11 @@
 		<%if @booking_group.status.eql?"partially canceled"%>
 			<p><b>Refunded Till Now: </b> <%=@booking_group.refund_amount%></p>
 		<%end%>
+		<%if @cancelation_fee > 0%>
+			<p><b>Cancelation Fee:</b> <%=ApplicationHelper.inr_format(@cancelation_fee)%></p>
+		<%end%>
 
 		<%if @booking_group.status.eql?"canceled"%>
-			<%if @cancelation_fee > 0%>
-				<p><b>Cancelation Fee:</b> <%=ApplicationHelper.inr_format(@cancelation_fee)%></p>
-			<%end%>
 
 			<%if @total_refund > 0 and @booking_group.payment_type.eql?"razorpay"%>
 				<p>The INR i.e refunded to your wallet is: <b><%=ApplicationHelper.inr_format(@total_refund)%></b></p>

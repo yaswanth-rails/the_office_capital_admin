@@ -6,7 +6,7 @@ class Booking < ApplicationRecord
   after_update :track_changes_in_table, unless: :executed
 
   belongs_to :user, optional: true
-  belongs_to :external_guest
+  belongs_to :external_guest, optional: true
   belongs_to :workspace
   belongs_to :booking_group
   belongs_to :coupon, optional: true

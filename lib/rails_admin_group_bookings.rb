@@ -23,7 +23,7 @@ module RailsAdmin
         register_instance_option :controller do
           Proc.new do
             @booking_group = BookingGroup.find(params[:id])
-            @bookings = @booking_group.bookings.page(params[:page]).per(20) rescue nil
+            @bookings = @booking_group.bookings.order("id asc").page(params[:page]).per(20) rescue nil
             @booking = @booking_group.bookings.first
           end
         end
