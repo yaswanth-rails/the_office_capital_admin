@@ -52,7 +52,7 @@ module RailsAdmin
             @error_message = nil
             
             if !@error_message.present?
-              @statements=WalletHistory.where("account_type = ? and wallet_id = ?",@account_type, @wallet.id).order("statement_date desc") rescue nil
+              @statements=WalletHistory.unscoped.where("account_type = ? and wallet_id = ?",@account_type, @wallet.id).order("statement_date desc") rescue nil
               @statements=@statements.page(params[:page]).per(20) rescue nil
             end#if @error_message.present?
           end
