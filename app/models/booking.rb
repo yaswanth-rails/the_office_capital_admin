@@ -65,6 +65,7 @@ class Booking < ApplicationRecord
       field :start_time
       field :end_time
       field :quantity
+      field :no_of_months
       field :hours
       field :meeting_room_guests
       field :status
