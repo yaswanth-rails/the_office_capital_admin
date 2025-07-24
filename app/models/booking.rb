@@ -8,6 +8,7 @@ class Booking < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :external_guest, optional: true
   belongs_to :workspace
+  has_one :workspace_type, through: :workspace
   belongs_to :booking_group
   belongs_to :coupon, optional: true
   belongs_to :coupon_applied_by, class_name: "User", optional: true
@@ -23,6 +24,17 @@ class Booking < ApplicationRecord
   def status_enum
     [['payment requested'],['payment request canceled'],['confirmed'],['canceled'],['partially canceled'],['visited']]
   end#status_enum
+
+  def workspace_type_name
+    workspace&.workspace_type&.name
+  end
+
+  scope :desk, -> { joins(workspace: :workspace_type).where(workspace_types: { name: 'Desk' }) }
+  scope :meeting_room, -> { joins(workspace: :workspace_type).where(workspace_types: { name: 'Meeting Room' }) }
+  scope :weekly_pass, -> { joins(workspace: :workspace_type).where(workspace_types: { name: 'Weekly Pass' }) }
+  scope :hot_desk, -> { joins(workspace: :workspace_type).where(workspace_types: { name: 'Hot Desk' }) }
+  scope :dedicated_desk, -> { joins(workspace: :workspace_type).where(workspace_types: { name: 'Dedicated Desk' }) }
+
 
   rails_admin do
     edit do
@@ -51,13 +63,28 @@ class Booking < ApplicationRecord
         read_only true
       end
     end
-
     list do
+      scopes [:all,:desk,:meeting_room,:weekly_pass,:hot_desk,:dedicated_desk]
       field :id
       field :user
       field :external_guest
       field :booking_group
       field :workspace
+      # field :workspace_type_name do
+      #   label 'Workspace Type'
+      #   searchable false
+      #   sortable false
+      #   filterable false
+      # end
+      field :workspace_type do
+        label "Workspace Type"
+        searchable ['workspace_types.name']
+        queryable true
+        filterable true
+        pretty_value do
+          bindings[:object].workspace&.workspace_type&.name
+        end
+      end
       field :reference_number
       field :amount
       field :net_amount

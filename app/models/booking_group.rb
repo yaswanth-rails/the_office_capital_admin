@@ -20,6 +20,26 @@ class BookingGroup < ApplicationRecord
     [['payment requested'],['payment requst canceled'],['confirmed'],['canceled'],['visited']]
   end#status_enum
 
+  def workspace_type
+    bookings.first.workspace.workspace_type.name
+      # .includes(workspace: :workspace_type)
+      # .map { |b| b.workspace&.workspace_type&.name }
+      # .compact
+      # .uniq
+  end
+
+  scope :desk, -> {
+    joins(bookings: { workspace: :workspace_type })
+      .where(workspace_types: { name: 'Desk' })
+      .select('DISTINCT ON (booking_groups.id) booking_groups.*')
+  }
+
+  scope :weekly_pass, -> {
+    joins(bookings: { workspace: :workspace_type })
+      .where(workspace_types: { name: 'Weekly Pass' })
+      .select('DISTINCT ON (booking_groups.id) booking_groups.*')
+  }
+
   rails_admin do
     edit do
       field :group do
@@ -46,9 +66,16 @@ class BookingGroup < ApplicationRecord
     end
 
     list do
+      scopes [:all, :desk, :weekly_pass]
       field :id
       field :group
       field :created_by
+      field :workspace_type do
+        label 'Workspace Type'
+        pretty_value do
+          value
+        end
+      end
       field :amount
       field :net_amount
       field :tax
