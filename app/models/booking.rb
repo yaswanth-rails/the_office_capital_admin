@@ -115,6 +115,7 @@ class Booking < ApplicationRecord
       field :canceled_by
       field :canceled_at
       field :refund_remarks
+      field :unsubscribe_alert
     end
   end
   def track_changes_in_table

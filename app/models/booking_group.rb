@@ -21,7 +21,7 @@ class BookingGroup < ApplicationRecord
   end#status_enum
 
   def workspace_type
-    bookings.first.workspace.workspace_type.name
+    bookings.first&.workspace&.workspace_type&.name
       # .includes(workspace: :workspace_type)
       # .map { |b| b.workspace&.workspace_type&.name }
       # .compact
@@ -37,6 +37,18 @@ class BookingGroup < ApplicationRecord
   scope :weekly_pass, -> {
     joins(bookings: { workspace: :workspace_type })
       .where(workspace_types: { name: 'Weekly Pass' })
+      .select('DISTINCT ON (booking_groups.id) booking_groups.*')
+  }
+
+  scope :hot_desk, -> {
+    joins(bookings: { workspace: :workspace_type })
+      .where(workspace_types: { name: 'Hot Desk' })
+      .select('DISTINCT ON (booking_groups.id) booking_groups.*')
+  }
+
+  scope :dedicated_desk, -> {
+    joins(bookings: { workspace: :workspace_type })
+      .where(workspace_types: { name: 'Dedicated Desk' })
       .select('DISTINCT ON (booking_groups.id) booking_groups.*')
   }
 
@@ -66,7 +78,7 @@ class BookingGroup < ApplicationRecord
     end
 
     list do
-      scopes [:all, :desk, :weekly_pass]
+      scopes [:all, :desk, :weekly_pass, :hot_desk, :dedicated_desk]
       field :id
       field :group
       field :created_by
@@ -99,6 +111,7 @@ class BookingGroup < ApplicationRecord
       field :canceled_by
       field :canceled_at
       field :refund_remarks
+      field :unsubscribe_alert
     end
   end
   def track_changes_in_table
