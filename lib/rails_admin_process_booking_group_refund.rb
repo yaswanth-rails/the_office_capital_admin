@@ -50,8 +50,14 @@ module RailsAdmin
                       flash[:alert]="Cancelation percentage should be greater than or equal to #{actual_booking_cancellation_percentage} "
                       redirect_to booking_group_refund_path
                     end#if booking_cancellation_percentage < actual_booking_cancellation_percentage
+                    valid_workspace = true
+                    if workspace_type.eql?"Weekly Pass" or workspace_type.eql?"Hot Desk" or workspace_type.eql?"Dedicated Desk"
+                      valid_workspace = false
+                      flash[:alert]="Refund process not yet done for #{workspace_type}"
+                      redirect_to refund_path
+                    end
 
-                    if (booking_group.status.eql?"confirmed" or booking_group.status.eql?"visited" or booking_group.status.eql?"partially canceled") and booking_group.payment_status.eql?"paid" and cancellation_percentage
+                    if (booking_group.status.eql?"confirmed" or booking_group.status.eql?"visited" or booking_group.status.eql?"partially canceled") and booking_group.payment_status.eql?"paid" and cancellation_percentage and valid_workspace
                       active_bookings = booking_group.bookings.where("(status = ? or status =?) and payment_status = ?","confirmed","cancel requested","paid")
                       ActiveRecord::Base.transaction do
                         fee_percentage = (booking_cancellation_percentage/100.0)

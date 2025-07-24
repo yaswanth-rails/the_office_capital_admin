@@ -54,7 +54,13 @@ module RailsAdmin
                       redirect_to refund_path
                     end#if booking_cancellation_percentage < actual_booking_cancellation_percentage
 
-                    if booking.status.eql?"confirmed" and booking.payment_status.eql?"paid" and cancellation_percentage
+                    valid_workspace = true
+                    if workspace_type.eql?"Weekly Pass" or workspace_type.eql?"Hot Desk" or workspace_type.eql?"Dedicated Desk"
+                      valid_workspace = false
+                      flash[:alert]="Refund process not yet done for #{workspace_type}"
+                      redirect_to refund_path
+                    end
+                    if booking.status.eql?"confirmed" and booking.payment_status.eql?"paid" and cancellation_percentage and valid_workspace
                       ActiveRecord::Base.transaction do
                         fee_percentage = (booking_cancellation_percentage/100.0)
                         booking_total_amount = booking.total_amount
