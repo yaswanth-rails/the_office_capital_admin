@@ -17,7 +17,7 @@ class BookingGroup < ApplicationRecord
     [[nil],['refund pending'],['refunded']]
   end#refund_status_enum
   def status_enum
-    [['payment requsted'],['payment requst canceled'],['confirmed'],['canceled'],['visited']]
+    [['payment requested'],['payment requst canceled'],['confirmed'],['canceled'],['visited']]
   end#status_enum
 
   rails_admin do
