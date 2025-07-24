@@ -19,6 +19,7 @@ class Booking < ApplicationRecord
   def refund_status_enum
     [[nil],['refund pending'],['refunded']]
   end#refund_status_enum
+
   def status_enum
     [['payment requested'],['payment request canceled'],['confirmed'],['canceled'],['partially canceled'],['visited']]
   end#status_enum
