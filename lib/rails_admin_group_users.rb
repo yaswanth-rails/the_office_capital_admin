@@ -31,6 +31,8 @@ module RailsAdmin
             @group = Group.find(params[:id])
             @users = User.where("group_id =?",@group.id )
             @users=@users.page(params[:page]).per(50)
+            @external_users = ExternalGuest.where("group_id =?",@group.id )
+            @external_users=@external_users.page(params[:page]).per(50)
           end#Proc
         end
       end

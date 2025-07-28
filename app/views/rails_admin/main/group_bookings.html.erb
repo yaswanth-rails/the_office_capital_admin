@@ -12,7 +12,7 @@
           <%= link_to "#{@booking.workspace&.name}", show_path(model_name: 'Workspace', id: @booking.workspace&.id), target: "_blank" %>
         </td>
         <th>Booking Date</th>
-        <td><%=@booking.booking_date.strftime("%d-%b-%Y")%>%></td>
+        <td><%=@booking.booking_date.strftime("%d-%b-%Y")%></td>
         <th>booked User</th>
         <td>
           <%= link_to "#{@booking_group.created_by&.email}", show_path(model_name: 'User', id: @booking_group.created_by&.id), target: "_blank" %>

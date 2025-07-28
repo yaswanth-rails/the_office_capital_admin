@@ -95,7 +95,7 @@ class Booking < ApplicationRecord
       field :quantity
       field :no_of_months
       field :hours
-      field :meeting_room_guests
+      # field :meeting_room_guests
       field :status
       field :payment_status
       field :payment_type

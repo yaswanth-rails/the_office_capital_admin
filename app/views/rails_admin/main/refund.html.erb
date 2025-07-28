@@ -20,8 +20,13 @@
 		<%if @workspace_type.eql?"Desk"%>
 			<p><b>Date booked for: </b> <%=@booking.start_time.strftime("%d-%m-%Y")%></p>
 		<%elsif @workspace_type.eql?"Meeting Room"%>
-			<p><b>Meeting start date and sime: </b> <%=@booking.start_time.strftime("%d-%m-%Y %H:%M")%></p>
-			<p><b>Meeting end date and sime: </b> <%=@booking.end_time.strftime("%d-%m-%Y %H:%M")%></p>
+			<p><b>Meeting start date and time: </b> <%=@booking.start_time.strftime("%d-%m-%Y %H:%M")%></p>
+			<p><b>Meeting end date and time: </b> <%=@booking.end_time.strftime("%d-%m-%Y %H:%M")%></p>
+		<%elsif @workspace_type.eql?"Weekly Pass"%>
+			<p><b>Start date: </b> <%=@booking.start_time.strftime("%d-%m-%Y")%></p>
+			<p><b>End date: </b> <%=@booking.end_time.strftime("%d-%m-%Y")%></p>
+		<%else%>
+			<p><b>Start date: </b> <%=@booking.start_time.strftime("%d-%m-%Y")%></p>
 		<%end%>
 		<p><b>Status: </b> <%=@booking.status%></p>
 		<p><b>Amount: </b> <%=@booking.amount%></p>
@@ -29,6 +34,9 @@
 		<p><b>Tax: </b> <%=@booking.tax%></p>
 		<p><b>Total Amount: </b> <%=@booking.total_amount%></p>
 		<p><b>Payment Method: </b> <%=@booking.payment_type%></p>
+		<%if @workspace_type.eql?"Weekly Pass"%>
+			<p> Refund for: <%=@booking_total_amount%> <b>(<%=@refund_days%> Days total)</b> </p>
+		<%end%>
 		<p><b>Cancelation Fee Percentage: </b> <%=@booking.booking_cancellation_percentage%>%</p>
 
 		<%if @cancelation_fee > 0%>
@@ -57,7 +65,7 @@
 	</div>
 	<div style="float: right;margin-right: 5%">
 		<%if !@booking.status.eql?"canceled"%>
-			<%if (@booking.status.eql?"confirmed" or @booking.status.eql?"visited") and @booking.payment_status.eql?"paid"%>
+			<%if (@booking.status.eql?"confirmed" or @booking.status.eql?"visited") and @booking.payment_status.eql?"paid" and @valid_workspace%>
 				<%= form_tag(process_refund_path, method: :get,class: "form-horizontal form-label-left") do  %>
 					<div class="form-group">
 						<label >Enter OTP : </label>		
