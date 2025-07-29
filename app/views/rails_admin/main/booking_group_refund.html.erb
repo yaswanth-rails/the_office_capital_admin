@@ -12,11 +12,22 @@
 
 <h2 style="text-align: center"> Booking Refund Details </h2>
 <div >
-	<div style="float:left">
+	<div style="float:left;">
 		<p><b>Workspace Type:</b> <%=@workspace_type%></p>
 		<p><b>Workspace: </b> <%=@workspace.name%></p>
 		<p><b>Reference Number: </b> <%=@first_booking.reference_number%></p>
 		<p><b>Date of booking: </b> <%=@first_booking.booking_date.strftime("%d-%m-%Y")%></p>
+		<%if @workspace_type.eql?"Desk"%>
+			<p><b>Date booked for: </b> <%=@first_booking.start_time.strftime("%d-%m-%Y")%></p>
+		<%elsif @workspace_type.eql?"Meeting Room"%>
+			<p><b>Meeting start date and time: </b> <%=@first_booking.start_time.strftime("%d-%m-%Y %H:%M")%></p>
+			<p><b>Meeting end date and time: </b> <%=@first_booking.end_time.strftime("%d-%m-%Y %H:%M")%></p>
+		<%elsif @workspace_type.eql?"Weekly Pass"%>
+			<p><b>Start date: </b> <%=@first_booking.start_time.strftime("%d-%m-%Y")%></p>
+			<p><b>End date: </b> <%=@first_booking.end_time.strftime("%d-%m-%Y")%></p>
+		<%else%>
+			<p><b>Start date: </b> <%=@first_booking.start_time.strftime("%d-%m-%Y")%></p>
+		<%end%>
 		<p><b>Status: </b> <%=@booking_group.status%></p>
 		<p><b>Amount: </b> <%=@booking_group.amount%></p>
 		<p><b>Net Amount: </b> <%=@booking_group.net_amount%></p>
@@ -25,6 +36,9 @@
 		<p><b>Payment Method: </b> <%=@booking_group.payment_type%></p>
 		<%if @booking_group.status.eql?"partially canceled"%>
 			<p><b>Refunded Till Now: </b> <%=@booking_group.refund_amount%></p>
+		<%end%>
+		<%if @workspace_type.eql?"Weekly Pass" and (@booking_group.status.eql?"confirmed" or @booking_group.status.eql?"partially canceled")%>
+			<p> Refund for: <%=ApplicationHelper.inr_format(@active_bookings_total_amount)%> <b>(<%=@refund_days%> Days total)</b> </p>
 		<%end%>
 		<%if @cancelation_fee > 0%>
 			<p><b>Cancelation Fee:</b> <%=ApplicationHelper.inr_format(@cancelation_fee)%></p>

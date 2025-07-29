@@ -55,7 +55,7 @@ module RailsAdmin
                     end#if booking_cancellation_percentage < actual_booking_cancellation_percentage
 
                     valid_workspace = true
-                    if workspace_type.name.eql?"Weekly Pass" or workspace_type.name.eql?"Hot Desk" or workspace_type.name.eql?"Dedicated Desk"
+                    if workspace_type.name.eql?"Hot Desk" or workspace_type.name.eql?"Dedicated Desk"
                       valid_workspace = false
                       flash[:alert]="Refund process not yet done for #{workspace_type.name}"
                       redirect_to refund_path

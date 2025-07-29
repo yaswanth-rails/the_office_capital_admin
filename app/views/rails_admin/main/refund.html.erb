@@ -12,7 +12,7 @@
 
 <h2 style="text-align: center"> Booking Refund Details </h2>
 <div style="padding-bottom: 50px;">
-	<div style="float:left">
+	<div style="float:left;padding-bottom: 50px">
 		<p><b>Workspace Type:</b> <%=@workspace_type%></p>
 		<p><b>Workspace: </b> <%=@workspace.name%></p>
 		<p><b>Reference Number: </b> <%=@booking.reference_number%></p>
@@ -34,8 +34,8 @@
 		<p><b>Tax: </b> <%=@booking.tax%></p>
 		<p><b>Total Amount: </b> <%=@booking.total_amount%></p>
 		<p><b>Payment Method: </b> <%=@booking.payment_type%></p>
-		<%if @workspace_type.eql?"Weekly Pass"%>
-			<p> Refund for: <%=@booking_total_amount%> <b>(<%=@refund_days%> Days total)</b> </p>
+		<%if @workspace_type.eql?"Weekly Pass" and @booking.status.eql?"confirmed"%>
+			<p> Refund for: <%=ApplicationHelper.inr_format(@booking_total_amount)%> <b>(<%=@refund_days%> Days total)</b> </p>
 		<%end%>
 		<p><b>Cancelation Fee Percentage: </b> <%=@booking.booking_cancellation_percentage%>%</p>
 

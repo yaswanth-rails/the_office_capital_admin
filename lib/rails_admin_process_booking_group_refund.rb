@@ -51,20 +51,33 @@ module RailsAdmin
                       redirect_to booking_group_refund_path
                     end#if booking_cancellation_percentage < actual_booking_cancellation_percentage
                     valid_workspace = true
-                    if workspace_type.name.eql?"Weekly Pass" or workspace_type.name.eql?"Hot Desk" or workspace_type.name.eql?"Dedicated Desk"
+                    if workspace_type.name.eql?"Hot Desk" or workspace_type.name.eql?"Dedicated Desk"
                       valid_workspace = false
                       flash[:alert]="Refund process not yet done for #{workspace_type.name}"
                       redirect_to refund_path
                     end
-
+                    if workspace_type.name.eql?"Weekly Pass"
+                      if Date.today > booking.end_time.to_date
+                        valid_workspace = false
+                        flash[:alert]="Not able to process refund, due to Weekly pass expire."
+                        redirect_to refund_path
+                      end
+                    end#if workspace_type.name.eql?"Weekly Pass"
                     if (booking_group.status.eql?"confirmed" or booking_group.status.eql?"visited" or booking_group.status.eql?"partially canceled") and booking_group.payment_status.eql?"paid" and cancellation_percentage and valid_workspace
                       active_bookings = booking_group.bookings.where("(status = ? or status =?) and payment_status = ?","confirmed","cancel requested","paid")
                       ActiveRecord::Base.transaction do
                         fee_percentage = (booking_cancellation_percentage/100.0)
 
                         active_bookings_total_amount = active_bookings.sum(:total_amount)
-                        total_refund = (active_bookings_total_amount * (1 - fee_percentage)).round(2)
+                        if @workspace_type.eql?"Weekly Pass"
+                          if Date.today > first_booking.start_time.to_date
+                            differene = (first_booking.start_time.to_date..Date.today).count{ |date| date.wday != 0 }
+                            @differene_amount = (differene * (first_booking.total_amount/7.0)).round(2)
+                            active_bookings_total_amount = (active_bookings_total_amount - (@differene_amount * active_bookings.count)).round(2)
+                          end
+                        end#if @workspace_type.eql?"Weekly Pass"
 
+                        total_refund = (active_bookings_total_amount * (1 - fee_percentage)).round(2)
                         refund_bonus = 0
                         if booking_group.bonus_applied > 0
                           proportion = active_bookings_total_amount / booking_group.total_amount
