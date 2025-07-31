@@ -8,9 +8,10 @@ class Tocs::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+sdff
+    super
+  end
 
   # GET /resource/edit
   # def edit
