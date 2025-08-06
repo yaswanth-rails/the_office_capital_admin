@@ -35,7 +35,7 @@
 		<p><b>Total Amount: </b> <%=@booking.total_amount%></p>
 		<p><b>Payment Method: </b> <%=@booking.payment_type%></p>
 		<%if @workspace_type.eql?"Weekly Pass" and @booking.status.eql?"confirmed"%>
-			<p> Refund for: <%=ApplicationHelper.inr_format(@booking_total_amount)%> <b>(<%=@refund_days%> Days total)</b> </p>
+			<p> Refund for: <%=ApplicationHelper.inr_format(@booking_total_amount)%> </p> <!-- <b>(<#%=@refund_days%> Days total)</b> -->
 		<%end%>
 		<p><b>Cancelation Fee Percentage: </b> <%=@booking.booking_cancellation_percentage%>%</p>
 

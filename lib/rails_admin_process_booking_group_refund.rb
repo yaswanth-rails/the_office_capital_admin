@@ -56,13 +56,6 @@ module RailsAdmin
                       flash[:alert]="Refund process not yet done for #{workspace_type.name}"
                       redirect_to refund_path
                     end
-                    if workspace_type.name.eql?"Weekly Pass"
-                      if Date.today > booking.end_time.to_date
-                        valid_workspace = false
-                        flash[:alert]="Not able to process refund, due to Weekly pass expire."
-                        redirect_to refund_path
-                      end
-                    end#if workspace_type.name.eql?"Weekly Pass"
                     if (booking_group.status.eql?"confirmed" or booking_group.status.eql?"visited" or booking_group.status.eql?"partially canceled") and booking_group.payment_status.eql?"paid" and cancellation_percentage and valid_workspace
                       active_bookings = booking_group.bookings.where("(status = ? or status =?) and payment_status = ?","confirmed","cancel requested","paid")
                       ActiveRecord::Base.transaction do
