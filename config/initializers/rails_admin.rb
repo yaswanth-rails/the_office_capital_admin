@@ -388,7 +388,7 @@ module RailsAdmin
     dashboard                     # mandatory
     index                         # mandatory
     new do
-      except  ['Company','JobAnswer','ContactSubmission','Booking','BookingGroup','ExternalGuest','Group','JobApplication','JobApplicant','Wallet','WalletHistory','Deposit','UserCouponUse','Withdraw','Review','PaperTrail::Version','PaperTrail::Association']
+      except  ['Company','Invoice','JobAnswer','ContactSubmission','Booking','BookingGroup','ExternalGuest','Group','JobApplication','JobApplicant','Wallet','WalletHistory','Deposit','UserCouponUse','Withdraw','Review','PaperTrail::Version','PaperTrail::Association']
     end
 
     loggedin_ips do
@@ -563,7 +563,7 @@ module RailsAdmin
     # bulk_delete
     show
     edit do
-      except ['Group','JobAnswer','ContactSubmission','UserCouponUse','WalletHistory','EmployeeKycStat','Deposit','ExternalGuest','LoginHistory','Review','PaperTrail::Version','PaperTrail::Association']
+      except ['Group','Invoice','JobAnswer','ContactSubmission','UserCouponUse','WalletHistory','EmployeeKycStat','Deposit','ExternalGuest','LoginHistory','Review','PaperTrail::Version','PaperTrail::Association']
     end
     # delete do
     #   only ['JobQuestionAssignment']

@@ -25,6 +25,7 @@ class User < ApplicationRecord
   has_many :withdraws
 	has_many :user_coupon_uses
   has_many :used_coupons, through: :user_coupon_uses, source: :coupon
+  has_many :invoices, dependent: :destroy
 
 	mount_uploader :profile_pic, PicUploader
   mount_base64_uploader :aadhar_front, KycUploader

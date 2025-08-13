@@ -11,6 +11,7 @@ class BookingGroup < ApplicationRecord
   belongs_to :coupon_applied_by, class_name: "User", optional: true
   belongs_to :canceled_by, class_name: "User", optional: true
   has_many :bookings, dependent: :destroy
+  has_many :invoices, dependent: :destroy
   belongs_to :coupon, optional: true
 
   def refund_status_enum
@@ -112,6 +113,7 @@ class BookingGroup < ApplicationRecord
       field :canceled_at
       field :refund_remarks
       field :unsubscribe_alert
+      field :next_invoice_date
     end
   end
   def track_changes_in_table
