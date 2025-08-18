@@ -7,7 +7,7 @@ class Invoice < ApplicationRecord
 
   belongs_to :booking_group
   belongs_to :user
-  belongs_to :coupon
+  belongs_to :coupon, optional: true
   belongs_to :coupon_applied_by, class_name: "User", optional: true
   has_many :wallet_histories
 

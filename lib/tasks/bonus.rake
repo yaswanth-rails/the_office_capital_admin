@@ -13,12 +13,15 @@ namespace :bonus do
           wallet = expired_transaction.wallet
           ActiveRecord::Base.transaction do
             wallet.with_lock do
-              wallet.balance = (wallet.balance - unused).round(2)
-              if wallet.save
+              wallet.bonus_balance = (wallet.bonus_balance - unused).round(2)
+              if wallet.save!
                 expired_transaction.bonus_expired = true
                 expired_transaction.save
-                WalletHistory.create(:user_id=>expired_transaction.user_id,:account_type=> "bonus account",:wallet_id=> wallet.id,:statement_date=> Time.zone.now,:transaction_type=>"bonus expiry",:amount=>unused,:action=>"debit",:balance=> wallet.bonus_balance)
+                WalletHistory.create(:user_id=>expired_transaction.user_id,:account_type=> "bonus account",:wallet_id=> wallet.id,:statement_date=> Time.zone.now,:transaction_type=>"bonus expiry",:amount=>unused,:action=>"debit",:balance=> wallet.bonus_balance,:reference_number=>expired_transaction.reference_number)
               end#if wallet.save
+              p "*" * 10
+              p wallet.bonus_balance.to_s
+              p "*" * 10
             end
           end
         end
