@@ -7,6 +7,9 @@ class Invoice < ApplicationRecord
 
   belongs_to :booking_group
   belongs_to :user
+  belongs_to :coupon
+  belongs_to :coupon_applied_by, class_name: "User", optional: true
+  has_many :wallet_histories
 
   validates :amount, :due_date, presence: true
   validates :reference_number, uniqueness: true
@@ -31,6 +34,9 @@ class Invoice < ApplicationRecord
       field :paid_at
       field :created_at
       field :updated_at
+      field :coupon
+      field :coupon_discount
+      field :coupon_applied_by
       field :payment_type
       field :razorpay_order_id
       field :razorpay_payment_id

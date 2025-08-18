@@ -13,6 +13,7 @@ class Coupon < ApplicationRecord
   belongs_to :user, optional: true
   has_many :bookings
   has_many :booking_groups
+  has_many :invoices
 
   def coupon_type_enum
     [['amount'],['percentage']]
