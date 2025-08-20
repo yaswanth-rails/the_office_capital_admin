@@ -9,7 +9,7 @@
       <tr>
         <th>Workspace</th>
         <td>
-          <%= link_to "#{@booking.workspace&.name}", show_path(model_name: 'Workspace', id: @booking.workspace&.id), target: "_blank" %>
+          <%= link_to "#{@workspace&.name}", show_path(model_name: 'Workspace', id: @workspace&.id), target: "_blank" %>
         </td>
         <th>Booking Date</th>
         <td><%=@booking.booking_date.strftime("%d-%b-%Y")%></td>
@@ -53,6 +53,18 @@
         <td><%=@booking_group.coupon_discount%></td>
         <th>Coupon Applied</th>
         <td><%=@booking_group.coupon_applied_by&.email%></td>
+      </tr>
+      <tr>
+        <th>Workspace Type</th>
+        <td>
+          <%= link_to "#{@workspace_type&.name}", show_path(model_name: 'WorkspaceType', id: @workspace_type&.id), target: "_blank" %>
+        </td>
+        <th>Renewed</th>
+        <td><%=@booking_group&.renewed%></td>
+        <th></th>
+        <td></td>
+        <th></th>
+        <td></td>
       </tr>
     </table>
   <div>
@@ -107,6 +119,35 @@
   		<%end%>
   	</table>
     <%= paginate @statements, theme: 'twitter-bootstrap-3' rescue nil%>
+    <%if @booking_logs.present?%>
+      <div style="margin-top:20px">
+        <h2 style="text-align: center; margin-top:0px;">Booking Logs</h2>
+      </div>
+      <table class="table table-condensed table-striped">
+        <tr>
+          <th>Sno</th>
+          <th>Action</th>
+          <th>Period Start</th>
+          <th>Period End</th>
+          <th>No of months</th>
+          <th>Payment Done By</th>
+          <th>Invoice</th>
+        </tr>
+        <%@booking_logs.each_with_index do|log,index|%>
+          <tr>
+            <td><%=index+1%></td>
+            <td><%=log.action%></td>
+            <td><%=log.period_start.strftime("%d-%b-%Y")%></td>
+            <td><%=log.period_end.strftime("%d-%b-%Y")%></td>
+            <td><%=log.no_of_months%></td>
+            <td><%=log.payment_done_by&.email%></td>
+            <td>
+              <%= link_to "#{log.invoice.reference_number}", show_path(model_name: 'Invoice', id: log.invoice_id), target: "_blank" %>
+            </td>
+          </tr>
+        <%end%>
+      </table>
+    <%end%>
   <%else%>
     <div style="float:left; width:85%">
       <h2>There are no Bookings</h2>

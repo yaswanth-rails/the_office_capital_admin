@@ -13,6 +13,7 @@ class BookingGroup < ApplicationRecord
   has_many :bookings, dependent: :destroy
   has_many :invoices, dependent: :destroy
   belongs_to :coupon, optional: true
+  has_many :hot_dedicated_desk_logs
 
   def refund_status_enum
     [[nil],['refund pending'],['refunded']]
@@ -114,6 +115,7 @@ class BookingGroup < ApplicationRecord
       field :refund_remarks
       field :unsubscribe_alert
       field :next_invoice_date
+      field :renewed
     end
   end
   def track_changes_in_table

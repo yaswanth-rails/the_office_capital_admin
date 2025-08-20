@@ -16,7 +16,7 @@ class Role < ApplicationRecord
     %w[superadmin admin employee]
   end
   def read_privileges_enum
-    %w[Amenity BankAccount Booking BookingGroup Company Coupon ContactSubmission Deposit EmployeeKycStat Equipment ExternalGuest Group Job JobAnswer JobApplication JobQuestion JobQuestionAssignment InterviewRound InterviewRoundStatus JobApplicant Location LoginHistory Review Street User UserCouponUse Wallet WalletHistory Withdraw Workspace WorkspaceAmenity WorkspaceEquipment WorkspaceTiming WorkspaceType]
+    %w[Amenity BankAccount Booking BookingGroup Company Coupon ContactSubmission Deposit EmployeeKycStat Equipment ExternalGuest Group HotDedicatedDeskLog Job JobAnswer JobApplication JobQuestion JobQuestionAssignment InterviewRound InterviewRoundStatus JobApplicant Location LoginHistory Review Street User UserCouponUse Wallet WalletHistory Withdraw Workspace WorkspaceAmenity WorkspaceEquipment WorkspaceTiming WorkspaceType]
   end
   def create_privileges_enum
     %w[Amenity BankAccount Booking BookingGroup Company Coupon ContactSubmission Deposit EmployeeKycStat Equipment ExternalGuest Group Job JobAnswer JobApplication JobQuestion JobQuestionAssignment InterviewRound InterviewRoundStatus JobApplicant Location LoginHistory Review Street User UserCouponUse Wallet WalletHistory Withdraw Workspace WorkspaceAmenity WorkspaceEquipment WorkspaceTiming WorkspaceType]
