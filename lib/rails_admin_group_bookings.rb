@@ -28,6 +28,7 @@ module RailsAdmin
             @workspace = @booking.workspace
             @workspace_type = @workspace.workspace_type
             @booking_logs = @booking_group.hot_dedicated_desk_logs
+            @invoices = @booking_group.invoices
           end
         end
       end

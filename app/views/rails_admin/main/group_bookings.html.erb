@@ -38,7 +38,7 @@
         <th>Payment Type</th>
         <td><%=@booking_group.payment_type%></td>
         <th>Total Amount</th>
-        <td><%=@booking_group.total_amount%></td>
+        <td><%=ApplicationHelper.inr_format(@booking_group.total_amount)%></td>
         <th>Refund Status</th>
         <td><%=@booking_group.refund_status%></td>
         <th>Refund Amount</th>
@@ -68,57 +68,7 @@
       </tr>
     </table>
   <div>
-    <h2 style="text-align: center; margin-top:0px;">Bookings</h2>
-  </div>
-    <table class="table table-condensed table-striped">
-      <tr>
-        <th>Sno</th>
-        <th>User</th>
-        <th>External Guest</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Amount</th>
-        <th>Net Amount</th>
-        <th>Tax</th>
-        <th>total Amount</th>
-        <th>status</th>
-        <th>Payment Status</th>
-        <th>Refund Status</th>
-        <th>Refund Amount</th>
-        <th>Canceled By</th>
-        <th>Canceled At</th>
-        <th>Show</th>
-        <th>Cancel</th>
-      </tr>
-  		<%@bookings.each_with_index do|booking,index|%>
-  			<tr>
-  				<td><%=index+1%></td>
-          <td><%=booking.user.email rescue nil%></td>
-          <td><%=booking.external_guest.email rescue nil%></td>
-          <td><%=booking.start_time.strftime("%d-%b-%Y")%></td>
-          <td><%=booking.end_time.strftime("%d-%b-%Y")%></td>
-          <td><%=booking.amount%></td>
-          <td><%=booking.net_amount%></td>
-          <td><%=booking.tax%></td>
-          <td><%=booking.total_amount%></td>
-          <td><%=booking.status%></td>
-          <td><%=booking.payment_status%></td>
-          <td><%=booking.refund_status%></td>
-          <td><%=booking.refund_amount%></td>
-          <td><%=booking&.canceled_by&.email%></td>
-          <td><%=booking&.canceled_at&.strftime("%d-%b-%Y %H:%M:%S")%></td>
-          <td>
-            <%= link_to "Show", show_path(model_name: 'Booking', id: booking.id), target: "_blank" %>
-          </td>
-          <td>
-            <%if booking.status.eql?"confirmed"%>
-              <%= link_to "Cancel", refund_path(model_name: 'Booking', id: booking.id), target: "_blank" %>
-            <%end%>
-          </td>
-  			</tr>
-  		<%end%>
-  	</table>
-    <%= paginate @statements, theme: 'twitter-bootstrap-3' rescue nil%>
+
     <%if @booking_logs.present?%>
       <div style="margin-top:20px">
         <h2 style="text-align: center; margin-top:0px;">Booking Logs</h2>
@@ -144,6 +94,86 @@
             <td>
               <%= link_to "#{log.invoice.reference_number}", show_path(model_name: 'Invoice', id: log.invoice_id), target: "_blank" %>
             </td>
+          </tr>
+        <%end%>
+      </table>
+    <%end%>
+
+    <h2 style="text-align: center; margin-top:0px;">Bookings</h2>
+    <table class="table table-condensed table-striped">
+      <tr>
+        <th>Sno</th>
+        <th>User</th>
+        <th>External Guest</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>status</th>
+        <th>Payment Status</th>
+        <th>Refund Status</th>
+        <th>Refund Amount</th>
+        <th>Canceled By</th>
+        <th>Canceled At</th>
+        <th>Show</th>
+        <th>Cancel</th>
+      </tr>
+  		<%@bookings.each_with_index do|booking,index|%>
+  			<tr>
+  				<td><%=index+1%></td>
+          <td><%=booking.user.email rescue nil%></td>
+          <td><%=booking.external_guest.email rescue nil%></td>
+          <td><%=booking.start_time.strftime("%d-%b-%Y")%></td>
+          <td><%=booking.end_time.strftime("%d-%b-%Y")%></td>
+          <td><%=booking.status%></td>
+          <td><%=booking.payment_status%></td>
+          <td><%=booking.refund_status%></td>
+          <td><%=booking.refund_amount%></td>
+          <td><%=booking&.canceled_by&.email%></td>
+          <td><%=booking&.canceled_at&.strftime("%d-%b-%Y %H:%M:%S")%></td>
+          <td>
+            <%= link_to "Show", show_path(model_name: 'Booking', id: booking.id), target: "_blank" %>
+          </td>
+          <td>
+            <%if booking.status.eql?"confirmed"%>
+              <%= link_to "Cancel", refund_path(model_name: 'Booking', id: booking.id), target: "_blank" %>
+            <%end%>
+          </td>
+  			</tr>
+  		<%end%>
+  	</table>
+    <%= paginate @statements, theme: 'twitter-bootstrap-3' rescue nil%>
+
+
+    <%if @invoices.present?%>
+      <div style="margin-top:20px">
+        <h2 style="text-align: center; margin-top:0px;">Invoices</h2>
+      </div>
+      <table class="table table-condensed table-striped">
+        <tr>
+          <th>Sno</th>
+          <th>Period Start</th>
+          <th>Period End</th>
+          <th>Amount</th>
+          <th>Net Amount</th>
+          <th>Tax</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Reference Number</th>
+          <th>Due Date</th>
+          <th>Paid At</th>
+        </tr>
+        <%@invoices.each_with_index do|invoice,index|%>
+          <tr>
+            <td><%=index+1%></td>
+            <td><%=invoice.period_start.strftime("%d-%b-%Y")%></td>
+            <td><%=invoice.period_end.strftime("%d-%b-%Y")%></td>
+            <td><%=ApplicationHelper.inr_format(invoice.amount)%></td>
+            <td><%=ApplicationHelper.inr_format(invoice.net_amount)%></td>
+            <td><%=ApplicationHelper.inr_format(invoice.tax)%></td>
+            <td><%=ApplicationHelper.inr_format(invoice.total_amount)%></td>
+            <td><%=invoice.status%></td>
+            <td><%=invoice.reference_number%></td>
+            <td><%=invoice.due_date.strftime("%d-%b-%Y")%></td>
+            <td><%=invoice.paid_at.strftime("%d-%b-%Y")%></td>
           </tr>
         <%end%>
       </table>
