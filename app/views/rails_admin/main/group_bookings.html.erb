@@ -107,7 +107,7 @@
         <th>External Guest</th>
         <th>Start Date</th>
         <th>End Date</th>
-        <%if !@workspace_type&.name.eql?"Hot Desk" and !@workspace_type&.name.eql?"Dedicated Desk"%>
+        <%if !@workspace_type&.name.eql?"Hot Desk" and !@workspace_type&.name.eql?"Dedicated Desk" and !@workspace_type&.name.eql?"Weekly Pass"%>
           <th>Amount</th>
           <th>Net Amount</th>
           <th>Tax</th>
@@ -129,7 +129,7 @@
           <td><%=booking.external_guest.email rescue nil%></td>
           <td><%=booking.start_time.strftime("%d-%b-%Y")%></td>
           <td><%=booking.end_time.strftime("%d-%b-%Y")%></td>
-          <%if !@workspace_type&.name.eql?"Hot Desk" and !@workspace_type&.name.eql?"Dedicated Desk"%>
+          <%if !@workspace_type&.name.eql?"Hot Desk" and !@workspace_type&.name.eql?"Dedicated Desk" and !@workspace_type&.name.eql?"Weekly Pass"%>
             <td><%=ApplicationHelper.inr_format(booking.amount)%></td>
             <td><%=ApplicationHelper.inr_format(booking.net_amount)%></td>
             <td><%=ApplicationHelper.inr_format(booking.tax)%></td>
