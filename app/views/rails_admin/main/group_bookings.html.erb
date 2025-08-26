@@ -185,7 +185,7 @@
             <td><%=invoice.status%></td>
             <td><%=invoice.reference_number%></td>
             <td><%=invoice.due_date.strftime("%d-%b-%Y")%></td>
-            <td><%=invoice.paid_at.strftime("%d-%b-%Y")%></td>
+            <td><%=invoice.paid_at&.strftime("%d-%b-%Y")%></td>
           </tr>
         <%end%>
       </table>

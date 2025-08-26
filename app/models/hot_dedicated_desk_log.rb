@@ -17,6 +17,8 @@ class HotDedicatedDeskLog < ApplicationRecord
       field :payment_done_by
       field :coupon_applied_by
       field :invoice
+      field :created_at
+      field :updated_at
     end
   end
 end
