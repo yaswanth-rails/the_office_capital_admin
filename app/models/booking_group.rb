@@ -5,6 +5,7 @@ class BookingGroup < ApplicationRecord
   attr_accessor :executed
   after_update :track_changes_in_table, unless: :executed
 
+  has_many :wallet_histories
   belongs_to :group
   belongs_to :created_by, class_name: "User"
   belongs_to :payment_done_by, class_name: "User", optional: true

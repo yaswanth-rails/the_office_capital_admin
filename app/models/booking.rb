@@ -5,6 +5,7 @@ class Booking < ApplicationRecord
   attr_accessor :executed
   after_update :track_changes_in_table, unless: :executed
 
+  has_many :wallet_histories
   belongs_to :user, optional: true
   belongs_to :external_guest, optional: true
   belongs_to :workspace

@@ -4,6 +4,8 @@ class WalletHistory < ApplicationRecord
 	belongs_to :deposit, optional: true
 	belongs_to :withdraw, optional: true
   belongs_to :invoice, optional: true
+  belongs_to :booking, optional: true
+  belongs_to :booking_group, optional: true
 
   default_scope { order(:statement_date) } # FIFO
   scope :credits, -> { where(account_type: "bonus account").where('transaction_type = ?',"deposit bonus").where('action = ?', "credit") }
