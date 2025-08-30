@@ -34,6 +34,7 @@ class Booking < ApplicationRecord
   scope :weekly_pass, -> { joins(workspace: :workspace_type).where(workspace_types: { name: 'Weekly Pass' }) }
   scope :hot_desk, -> { joins(workspace: :workspace_type).where(workspace_types: { name: 'Hot Desk' }) }
   scope :dedicated_desk, -> { joins(workspace: :workspace_type).where(workspace_types: { name: 'Dedicated Desk' }) }
+  scope :private_office, -> { joins(workspace: :workspace_type).where(workspace_types: { name: 'Private Office' }) }
 
 
   rails_admin do
@@ -64,7 +65,7 @@ class Booking < ApplicationRecord
       end
     end
     list do
-      scopes [:all,:desk,:meeting_room,:weekly_pass,:hot_desk,:dedicated_desk]
+      scopes [:all,:desk,:meeting_room,:weekly_pass,:hot_desk,:dedicated_desk,:private_office]
       field :id
       field :user
       field :external_guest

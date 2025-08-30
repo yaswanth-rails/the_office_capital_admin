@@ -54,6 +54,12 @@ class BookingGroup < ApplicationRecord
       .select('DISTINCT ON (booking_groups.id) booking_groups.*')
   }
 
+  scope :private_office, -> {
+    joins(bookings: { workspace: :workspace_type })
+      .where(workspace_types: { name: 'Private Office' })
+      .select('DISTINCT ON (booking_groups.id) booking_groups.*')
+  }
+
   rails_admin do
     edit do
       field :group do
@@ -80,7 +86,7 @@ class BookingGroup < ApplicationRecord
     end
 
     list do
-      scopes [:all, :desk, :weekly_pass, :hot_desk, :dedicated_desk]
+      scopes [:all, :desk, :weekly_pass, :hot_desk, :dedicated_desk, :private_office]
       field :id
       field :group
       field :created_by
