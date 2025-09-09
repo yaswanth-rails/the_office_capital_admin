@@ -18,11 +18,50 @@ class Invoice < ApplicationRecord
   scope :due_soon, -> { where(status: "pending").where("due_date <= ?", 3.days.from_now) }
   scope :overdue, -> { where(status: "pending").where("due_date < ?", Date.today) }
 
+  scope :weekly_pass, -> {
+    joins(booking_group: { bookings: { workspace: :workspace_type } })
+      .where(workspace_types: { name: 'Weekly Pass' })
+      .select('invoices.*')
+      .group('invoices.id')
+  }
+
+  scope :hot_desk, -> {
+    joins(booking_group: { bookings: { workspace: :workspace_type } })
+      .where(workspace_types: { name: 'Hot Desk' })
+      .select('invoices.*')
+      .group('invoices.id')
+  }
+
+  scope :dedicated_desk, -> {
+    joins(booking_group: { bookings: { workspace: :workspace_type } })
+      .where(workspace_types: { name: 'Dedicated Desk' })
+      .select('invoices.*')
+      .group('invoices.id')
+  }
+
+  scope :private_office, -> {
+    joins(booking_group: { bookings: { workspace: :workspace_type } })
+      .where(workspace_types: { name: 'Private Office' })
+      .select('invoices.*')
+      .group('invoices.id')
+  }
+
+  def workspace_type
+    booking_group.bookings.first&.workspace&.workspace_type&.name
+  end
+
   rails_admin do
     list do
+      scopes [:all, :weekly_pass, :hot_desk, :dedicated_desk, :private_office]
       field :id
       field :booking_group
       field :user
+      field :workspace_type do
+        label 'Workspace Type'
+        pretty_value do
+          value
+        end
+      end
       field :period_start
       field :period_end
       field :amount

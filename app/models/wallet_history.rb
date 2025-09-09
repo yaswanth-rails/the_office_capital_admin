@@ -38,8 +38,8 @@ class WalletHistory < ApplicationRecord
       field :created_at
       field :updated_at
       field :balance
-      field :booking_id
-      field :booking_group_id
+      field :booking
+      field :booking_group
       field :deposit
       field :deposit
       field :withdraw
