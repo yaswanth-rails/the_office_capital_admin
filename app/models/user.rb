@@ -12,6 +12,7 @@ class User < ApplicationRecord
 	after_commit :upload_proofs, unless: :executed
 	after_commit :track_changes_in_table, unless: :executed
 	has_many :login_histories
+	has_many :managed_office_requirements
 
 	has_many :invitations, class_name: self.to_s, as: :invited_by
 	belongs_to :invited_by, optional: true, polymorphic: true
