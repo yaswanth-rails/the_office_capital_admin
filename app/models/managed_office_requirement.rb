@@ -10,6 +10,7 @@ class ManagedOfficeRequirement < ApplicationRecord
       field :user
       field :plan
       field :facade_type
+      field :reference_number
       field :ceo_cabins
       field :ceo_cabin_seaters
       field :manager_cabins
