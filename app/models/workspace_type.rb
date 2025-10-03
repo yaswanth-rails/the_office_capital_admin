@@ -8,7 +8,7 @@ class WorkspaceType < ApplicationRecord
   has_many :workspaces
 
   def name_enum
-    [['Desk'],['Meeting Room']]
+    [['Desk'],['Meeting Room'],['Weekly Pass'],['Hot Desk'],['Dedicated Desk'],['Private Office'],['Managed Office']]
   end#name_enum
 
   rails_admin do
