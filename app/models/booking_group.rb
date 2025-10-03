@@ -123,6 +123,8 @@ class BookingGroup < ApplicationRecord
       field :unsubscribe_alert
       field :next_invoice_date
       field :renewed
+      field :facade_type
+      field :facade_price
     end
   end
   def track_changes_in_table
