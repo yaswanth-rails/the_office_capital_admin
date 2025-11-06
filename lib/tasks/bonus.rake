@@ -2,7 +2,7 @@ namespace :bonus do
   desc "Expire old bonuses across all wallets"
   task expire_old_credits: :environment do
     puts "[#{Time.current}] Starting bonus expiry check..."
-    expired_transactions = WalletHistory.where("account_type = ? and action =? and statement_date < ? and bonus_expired = ? and transaction_type != ?","bonus account","credit",60.days.ago,false,"bonus refund")
+    expired_transactions = WalletHistory.where("account_type = ? and action =? and statement_date < ? and bonus_expired = ? and transaction_type != ?","bonus account","credit",59.days.ago,false,"bonus refund")
     if expired_transactions.present?
       expired_transactions.each do |expired_transaction|
         unused = expired_transaction.amount - expired_transaction.used_amount
