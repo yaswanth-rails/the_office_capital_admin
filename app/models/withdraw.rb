@@ -128,18 +128,23 @@ class Withdraw < ApplicationRecord
     if saved_changes?
       if status_previously_changed? and persisted? and self.status.eql? "credited to user"
         master_wallet = Wallet.find(ENV["TOC_MASTER_WALLET"])
-        master_wallet.transaction do
-          master_wallet.with_lock do
-            master_wallet.balance = (master_wallet.balance - self.withdraw_amount).round(2)
-            if master_wallet.save
-              self.master_wallet_status = "debited from master wallet"
-              self.executed = true
-              self.save
-              WalletHistory.create(:account_type=> "inr account",:wallet_id=> master_wallet.id,:statement_date=> Time.zone.now,:transaction_type=>"withdraw",:amount=>self.withdraw_amount,:action=>"debit",:balance=> master_wallet.balance,:withdraw_id=>self.id,:reference_number=>self.reference_number)
-            end#if master_wallet.save
-          end
-        end#master_wallet.transaction do
-        UserMailer.send_withdraw_confirmation(user,self).deliver_later
+        if master_wallet.balance >= self.withdraw_amount
+          master_wallet.transaction do
+            master_wallet.with_lock do
+              master_wallet.balance = (master_wallet.balance - self.withdraw_amount).round(2)
+              if master_wallet.save
+                self.master_wallet_status = "debited from master wallet"
+                self.executed = true
+                self.save
+                WalletHistory.create(:account_type=> "inr account",:wallet_id=> master_wallet.id,:statement_date=> Time.zone.now,:transaction_type=>"withdraw",:amount=>self.withdraw_amount,:action=>"debit",:balance=> master_wallet.balance,:withdraw_id=>self.id,:reference_number=>self.reference_number)
+              end#if master_wallet.save
+            end
+          end#master_wallet.transaction do
+          UserMailer.send_withdraw_confirmation(user,self).deliver_later
+        else
+          self.status = "transaction error"
+          self.save
+        end
       elsif status_previously_changed? and persisted? and self.status.eql? "canceled"
         if self.user.present?
           master_wallet = Wallet.where("company_id=?",ENV["TOC_MASTER_WALLET"]).first #Live Master inr account
@@ -152,10 +157,14 @@ class Withdraw < ApplicationRecord
                 #Adding user's inr account credit transaction
                 WalletHistory.create(:user_id=>self.user_id,:account_type=> "inr account",:wallet_id=> user_wallet.id,:statement_date=> Time.zone.now,:transaction_type=>"withdraw cancel",:amount=>self.amount,:action=>"credit",:balance=> user_wallet.balance,:withdraw_id=>self.id,:reference_number=>self.reference_number)
                 #deducting FEE from master inr account
-                master_wallet.balance = (master_wallet.balance - self.fee).round(2)
-                if master_wallet.save
-                  WalletHistory.create(:account_type=> "inr account",:wallet_id=> master_wallet.id,:statement_date=> Time.zone.now,:transaction_type=>"withdraw fee refund",:amount=>self.fee,:action=>"debit",:balance=> master_wallet.balance,:withdraw_id=>self.id,:reference_number=>self.reference_number)
-                end#if master_wallet.save
+                if master_wallet.balance >= self.fee
+                  master_wallet.balance = (master_wallet.balance - self.fee).round(2)
+                  if master_wallet.save
+                    WalletHistory.create(:account_type=> "inr account",:wallet_id=> master_wallet.id,:statement_date=> Time.zone.now,:transaction_type=>"withdraw fee refund",:amount=>self.fee,:action=>"debit",:balance=> master_wallet.balance,:withdraw_id=>self.id,:reference_number=>self.reference_number)
+                  end#if master_wallet.save
+                else
+                  # Handle insufficient balance for fee, perhaps log or alert
+                end
                 #ALERT TO USER
                 UserMailer.send_cancel_withdraw_alert(self).deliver_later
               end#if user_wallet.save!
